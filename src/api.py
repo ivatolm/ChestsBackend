@@ -13,9 +13,10 @@ def create_room():
     data = request.json
 
     if tools.validate(data, { "name": str, "players_count": int }):
-      room_id = server.create_room(data["name"], data["players_count"])
+      # room_id = server.create_room(data["name"], data["players_count"])
+      room_id = "some_random_uuid"
       return {
-        "room_id": room_id
+        "roomId": room_id
       }
 
     else:
