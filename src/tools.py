@@ -1,9 +1,25 @@
+from . import logger
+
+
+TOOLS_LOGGER = logger.Logger()
+
 def validate(x, y):
-  for key, item in y.items():
-    if key not in x:
-      return False
+  try:
+    if not y:
+      raise Exception("Sample object is None.")
 
-    if not isinstance(x[key], item):
-      return False
+    for key, item in y.items():
+      TOOLS_LOGGER.log("DEBUG :: TOOLS :: Validate", f"{x}, {key}, {item}")
 
-  return True
+      if key not in x:
+        return False
+
+      if not isinstance(x[key], item):
+        return False
+
+
+    return True
+
+  except Exception as e:
+    TOOLS_LOGGER.log("TOOLS :: Validate", str(e))
+    return False
