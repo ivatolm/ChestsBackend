@@ -17,6 +17,9 @@ class Logger:
         return
 
       self.log_file = config["logFile"]
+    
+    with open(self.log_file, 'w') as log_file:
+      log_file.write('')
 
 
   def log(self, who, msg):

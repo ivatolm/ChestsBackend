@@ -1,8 +1,7 @@
 from flask import Flask, request
 
-from . import app
+from . import app, game
 from . import logger, tools
-from . import server
 
 
 API_LOGGER = logger.Logger()
@@ -13,10 +12,9 @@ def create_room():
     data = request.json
 
     if tools.validate(data, { "name": str, "players_count": int }):
-      # room_id = server.create_room(data["name"], data["players_count"])
-      room_id = "some_random_uuid"
+      room_id = game.create_room(data)
       return {
-        "roomId": room_id
+        "room_id": room_id
       }
 
     else:
@@ -30,26 +28,18 @@ def create_room():
 @app.route("/api/joinRoom", methods=["POST"])
 def join_room():
   try:
-    data = request.json()
+    data = request.json
 
     if tools.validate(data, { "room_id": str, "nickname": str }):
-      server.join_room(data["room_id"], data["nickname"])
+      player_id, room_settings = game.join_room(data)
+      return {
+        "player_id": player_id,
+        "room_settings": room_settings
+      }
+
     else:
       raise Exception("Data validation failed.")
 
   except Exception as e:
     API_LOGGER.log("API :: JoinRoom", str(e))
-
-
-@app.route("/api/ready", methods=["POST"])
-def ready():
-  try:
-    data = request.json()
-
-    if tools.validate(data, { "player_id": str, "ready": bool }):
-      server.ready(data["player_id"], data["ready"])
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: Ready", str(e))
+    return { "success": False }
