@@ -1,5 +1,10 @@
 from flask import Flask
+from .game import Game
 
+# Creating game instance
+game = Game()
+
+# Creating flask application
 app = Flask(
   __name__,
   static_url_path='',
