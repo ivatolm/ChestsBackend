@@ -38,3 +38,18 @@ class Game:
     except Exception as e:
       GAME_LOGGER.log("GAME :: join_room", str(e))
       return "-1", {}
+
+
+  def ready(self, ready_params):
+    try:
+      room_id, player_id = ready_params["room_id"], ready_params["player_id"]
+
+      if room_id not in self.rooms:
+        raise Exception("Invalid room id.")
+      else:
+        result = self.rooms[room_id].set_ready(player_id)
+        return result
+
+    except Exception as e:
+      GAME_LOGGER.log("GAME :: ready", str(e))
+      return False

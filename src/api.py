@@ -8,6 +8,8 @@ API_LOGGER = logger.Logger()
 
 @app.route("/api/createRoom", methods=["POST"])
 def create_room():
+  API_LOGGER.log("API :: create_room", "...")
+
   try:
     data = request.json
 
@@ -27,6 +29,8 @@ def create_room():
 
 @app.route("/api/joinRoom", methods=["POST"])
 def join_room():
+  API_LOGGER.log("API :: join_room", "...")
+
   try:
     data = request.json
 
@@ -42,4 +46,23 @@ def join_room():
 
   except Exception as e:
     API_LOGGER.log("API :: JoinRoom", str(e))
+    return { "success": False }
+
+
+@app.route("/api/ready", methods=["POST"])
+def ready():
+  API_LOGGER.log("API :: Ready", "...")
+
+  try:
+    data = request.json
+
+    if tools.validate(data, { "room_id": str, "player_id": str, "ready": bool }):
+      result = game.ready(data)
+      return { "success": result }
+    
+    else:
+      raise Exception("Data validation failed.")
+
+  except Exception as e:
+    API_LOGGER.log("API :: Ready", str(e))
     return { "success": False }
