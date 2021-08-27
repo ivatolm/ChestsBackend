@@ -8,17 +8,20 @@ def validate(x, y):
     if not y:
       raise Exception("Sample object is None.")
 
+    result = True
     for key, item in y.items():
-      TOOLS_LOGGER.log("DEBUG :: TOOLS :: Validate", f"{x}, {key}, {item}")
-
       if key not in x:
-        return False
+        result = False
 
       if not isinstance(x[key], item):
-        return False
+        result = False
 
+      TOOLS_LOGGER.log(
+        "DEBUG :: TOOLS :: Validate",
+        f"{key} ({type(x[key]).__name__} <> {item.__name__}) > " +
+          "PASSED" if result else "FAILED")
 
-    return True
+    return result
 
   except Exception as e:
     TOOLS_LOGGER.log("TOOLS :: Validate", str(e))
