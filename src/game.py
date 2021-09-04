@@ -53,3 +53,18 @@ class Game:
     except Exception as e:
       GAME_LOGGER.log("GAME :: ready", str(e))
       return False
+
+
+  def wait(self, wait_params):
+    try:
+      room_id, player_id = wait_params["room_id"], wait_params["player_id"]
+
+      if room_id not in self.rooms:
+        raise Exception("Invalid room id.")
+      else:
+        result = self.rooms[room_id].wait(player_id)
+        return result
+    
+    except Exception as e:
+      GAME_LOGGER.log("GAME :: wait", str(e))
+      return False

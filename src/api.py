@@ -66,3 +66,21 @@ def ready():
   except Exception as e:
     API_LOGGER.log("API :: Ready", str(e))
     return { "success": False }
+
+
+@app.route("/api/wait", methods=["POST"])
+def wait():
+  API_LOGGER.log("API :: Wait", "...")
+
+  try:
+    data = request.json
+    if tools.validate(data, { "room_id": str, "player_id": str }):
+      result = game.wait(data)
+      return { "success": result }
+
+    else:
+      raise Exception("Data validation failed.")
+
+  except Exception as e:
+    API_LOGGER.log("API :: Wait", str(e))
+    return { "success": False }

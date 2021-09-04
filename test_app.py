@@ -66,3 +66,39 @@ def test_ready(client):
   })
 
   assert ready_data["success"] == True
+
+
+@pytest.mark.timeout(1)
+@pytest.mark.xfail(reason="Expected to fail")
+def test_wait(client):
+  room_data = client.post("/api/createRoom", json={
+  "name": "room name with spaces",
+  "players_count": 2
+  }).json
+  print(room_data["room_id"])
+
+  join_data = client.post("/api/joinRoom", json={
+    "room_id": room_data["room_id"],
+    "nickname": "dev"
+  }).json
+  print(f"Received response: {join_data}")
+
+  ready_data = client.post("/api/ready", json={
+    "room_id": room_data["room_id"],
+    "player_id": join_data["player_id"],
+    "ready": True
+  }).json
+  print(f"Received response: {ready_data}")
+
+  wait_data = client.post("/api/wait", json={
+    "room_id": room_data["room_id"],
+    "player_id": join_data["player_id"]
+  }).json
+
+  print(f"Received response: {wait_data}")
+
+  assert tools.validate(wait_data, {
+    "success": bool
+  })
+
+  assert wait_data["success"] == True

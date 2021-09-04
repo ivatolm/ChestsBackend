@@ -1,4 +1,4 @@
-import uuid
+import uuid, time
 
 from . import logger
 
@@ -32,4 +32,21 @@ class Room:
       return True
     else:
       ROOM_LOGGER.log("ROOM :: set_ready", "Player with given id wasn't found.")
+      return False
+
+
+  def wait(self, player_id):
+    if player_id in self.players:
+
+      while (
+        (len(self.players) != self.settings["players_count"])
+          or
+        (False in [player["ready"] for player in self.players.values()])
+      ):
+        time.sleep(1)
+      self.players[player_id]["ready"] = False
+
+      return True
+    else:
+      ROOM_LOGGER.log("ROOM :: wait", "Player with given id wasn't found.")
       return False
