@@ -107,3 +107,22 @@ def state():
   except Exception as e:
     API_LOGGER.log("API :: State", str(e))
     return { "success": False }
+
+
+@app.route("/api/take", methods=["POST"])
+def take():
+  API_LOGGER.log("API :: Take", "...")
+
+  try:
+    data = request.json
+
+    if tools.validate(data, { "room_id": str, "player_id": str, "nickname": str, "card": int }):
+      result = game.take(data)
+      return { "success": result }
+    
+    else:
+      raise Exception("Data validation failed.")
+  
+  except Exception as e:
+    API_LOGGER.log("API :: Take", str(e))
+    return { "success": False }
