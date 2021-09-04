@@ -74,6 +74,7 @@ def wait():
 
   try:
     data = request.json
+
     if tools.validate(data, { "room_id": str, "player_id": str }):
       result = game.wait(data)
       return { "success": result }
@@ -83,4 +84,26 @@ def wait():
 
   except Exception as e:
     API_LOGGER.log("API :: Wait", str(e))
+    return { "success": False }
+
+
+@app.route("/api/state", methods=["POST"])
+def state():
+  API_LOGGER.log("API :: State", "...")
+
+  try:
+    data = request.json
+
+    if tools.validate(data, { "room_id": str, "player_id": str }):
+      turn, cards = game.state(data)
+      return {
+        "turn": turn,
+        "cards": cards
+      }
+
+    else:
+      raise Exception("Data validation failed.")
+
+  except Exception as e:
+    API_LOGGER.log("API :: State", str(e))
     return { "success": False }

@@ -9,6 +9,7 @@ class Room:
   def __init__(self, settings):
     self.settings = settings
     self.players = {}
+    self.turn = None
 
 
   def add_player(self, nickname):
@@ -20,9 +21,11 @@ class Room:
     else:
       self.players[player_id] = {
         "nickname": nickname,
-        "ready": False
+        "ready": False,
+        "turn": False,
+        "cards": set()
       }
-    
+
     return player_id, self.settings
 
 
@@ -49,4 +52,15 @@ class Room:
       return True
     else:
       ROOM_LOGGER.log("ROOM :: wait", "Player with given id wasn't found.")
+      return False
+
+
+  def state(self, player_id):
+    if player_id in self.players:
+      return (
+        self.players[player_id]["turn"],
+        list(self.players[player_id]["cards"]),
+      )
+    else:
+      ROOM_LOGGER.log("ROOM :: state", "Player with given id wasn't found.")
       return False
