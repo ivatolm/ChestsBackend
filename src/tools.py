@@ -19,7 +19,7 @@ def validate(x, y):
       TOOLS_LOGGER.log(
         "DEBUG :: TOOLS :: Validate",
         f"{key} ({type(x[key]).__name__} <> {item.__name__}) > " +
-          "PASSED" if result else "FAILED")
+          ("PASSED" if result else "FAILED"))
 
     return result
 
