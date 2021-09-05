@@ -103,3 +103,18 @@ class Game:
     except Exception as e:
       GAME_LOGGER.log("GAME :: take", str(e))
       return False
+
+
+  def pull(self, pull_params):
+    try:
+      room_id, player_id = pull_params["room_id"], pull_params["player_id"]
+
+      if room_id not in self.rooms:
+        raise Exception("Invalid room id.")
+      else:
+        result = self.rooms[room_id].pull(player_id)
+        return result
+    
+    except Exception as e:
+      GAME_LOGGER.log("GAME :: pull", str(e))
+      return False

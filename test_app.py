@@ -161,3 +161,27 @@ def test_take(client):
   assert tools.validate(take_data, {
     "success": bool
   })
+
+
+def test_pull(client):
+  room_data = client.post("/api/createRoom", json={
+    "name": "room name with spaces",
+    "players_count": 1
+  }).json
+  print(room_data["room_id"])
+
+  join_data = client.post("/api/joinRoom", json={
+    "room_id": room_data["room_id"],
+    "nickname": "dev"
+  }).json
+  print(f"Received response: {join_data}")
+
+  pull_data = client.post("/api/pull", json={
+    "room_id": room_data["room_id"],
+    "player_id": join_data["player_id"],
+  }).json
+  print(f"Received response: {pull_data}")
+
+  assert tools.validate(pull_data, {
+    "success": bool
+  })

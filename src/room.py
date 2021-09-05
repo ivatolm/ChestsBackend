@@ -1,4 +1,4 @@
-import uuid, time
+import uuid, time, random
 
 from . import logger
 
@@ -10,6 +10,7 @@ class Room:
     self.settings = settings
     self.players = {}
     self.turn = None
+    self.deck = [i for i in range(1, 52 + 1)]
 
 
   def add_player(self, nickname):
@@ -23,7 +24,7 @@ class Room:
         "nickname": nickname,
         "ready": False,
         "turn": False,
-        "cards": [25]
+        "cards": []
       }
 
     return player_id, self.settings
@@ -87,4 +88,15 @@ class Room:
         return False
     else:
       ROOM_LOGGER.log("ROOM :: take", "Player with given id or nickname wasn't found.")
+      return False
+
+
+  def pull(self, player_id):
+    if player_id in self.players:
+      card = random.choice(self.deck)
+      self.players[player_id]["cards"].append(card)
+      self.deck.remove(card)
+      return True
+    else:
+      ROOM_LOGGER.log("ROOM :: pull", "Player with given id wasn't found.")
       return False
