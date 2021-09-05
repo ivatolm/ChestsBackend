@@ -6,142 +6,140 @@ from . import logger, tools
 
 API_LOGGER = logger.Logger()
 
-@app.route("/api/createRoom", methods=["POST"])
+
+def exceptionLogger(func):
+  def wrapper():
+    API_LOGGER.log(f"API :: {func.__name__}", "...")
+
+    try:
+      return func()
+
+    except Exception as e:
+      API_LOGGER.log(f"API :: {func.__name__}", str(e))
+      return False
+
+  return wrapper
+
+
+@app.route("/api/createRoom", methods=["POST"], endpoint="create_room")
+@exceptionLogger
 def create_room():
-  API_LOGGER.log("API :: create_room", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "name": str,
+    "players_count": int
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "name": str, "players_count": int }):
-      room_id = game.create_room(data)
-      return {
-        "room_id": room_id
-      }
-
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: CreateRoom", str(e))
-    return { "success": False }
+  room_id = game.create_room(data)
+  return {
+    "room_id": room_id
+  }
 
 
-@app.route("/api/joinRoom", methods=["POST"])
+@app.route("/api/joinRoom", methods=["POST"], endpoint="join_room")
+@exceptionLogger
 def join_room():
-  API_LOGGER.log("API :: join_room", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "nickname": str
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "nickname": str }):
-      player_id, room_settings = game.join_room(data)
-      return {
-        "player_id": player_id,
-        "room_settings": room_settings
-      }
-
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: JoinRoom", str(e))
-    return { "success": False }
+  player_id, room_settings = game.join_room(data)
+  return {
+    "player_id": player_id,
+    "room_settings": room_settings
+  }
 
 
-@app.route("/api/ready", methods=["POST"])
+@app.route("/api/ready", methods=["POST"], endpoint="ready")
+@exceptionLogger
 def ready():
-  API_LOGGER.log("API :: Ready", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str,
+    "ready": bool
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "player_id": str, "ready": bool }):
-      result = game.ready(data)
-      return { "success": result }
-    
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: Ready", str(e))
-    return { "success": False }
+  result = game.ready(data)
+  return {
+    "success": result
+  }
 
 
-@app.route("/api/wait", methods=["POST"])
+@app.route("/api/wait", methods=["POST"], endpoint="wait")
+@exceptionLogger
 def wait():
-  API_LOGGER.log("API :: Wait", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "player_id": str }):
-      result = game.wait(data)
-      return { "success": result }
-
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: Wait", str(e))
-    return { "success": False }
+  result = game.wait(data)
+  return {
+    "success": result
+  }
 
 
-@app.route("/api/state", methods=["POST"])
+@app.route("/api/state", methods=["POST"], endpoint="state")
+@exceptionLogger
 def state():
-  API_LOGGER.log("API :: State", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "player_id": str }):
-      turn, cards = game.state(data)
-      return {
-        "turn": turn,
-        "cards": cards
-      }
-
-    else:
-      raise Exception("Data validation failed.")
-
-  except Exception as e:
-    API_LOGGER.log("API :: State", str(e))
-    return { "success": False }
+  turn, cards = game.state(data)
+  return {
+    "turn": turn,
+    "cards": cards
+  }
 
 
-@app.route("/api/take", methods=["POST"])
+@app.route("/api/take", methods=["POST"], endpoint="take")
+@exceptionLogger
 def take():
-  API_LOGGER.log("API :: Take", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str,
+    "nickname": str,
+    "card": int
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "player_id": str, "nickname": str, "card": int }):
-      result = game.take(data)
-      return { "success": result }
-    
-    else:
-      raise Exception("Data validation failed.")
-  
-  except Exception as e:
-    API_LOGGER.log("API :: Take", str(e))
-    return { "success": False }
+  result = game.take(data)
+  return {
+    "success": result
+  }
 
 
-@app.route("/api/pull", methods=["POST"])
+@app.route("/api/pull", methods=["POST"], endpoint="pull")
+@exceptionLogger
 def pull():
-  API_LOGGER.log("API :: Pull", "...")
+  data = request.json
 
-  try:
-    data = request.json
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str
+  }):
+    raise Exception("Data validation failed.")
 
-    if tools.validate(data, { "room_id": str, "player_id": str }):
-      result = game.pull(data)
-      return { "success": result }
-
-    else:
-      raise Exception("Data validation failed.")
-  
-  except Exception as e:
-    API_LOGGER.log("API :: Pull", str(e))
-    return { "success": False }
+  result = game.pull(data)
+  return {
+    "success": result
+  }
