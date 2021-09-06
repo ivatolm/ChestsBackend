@@ -1,17 +1,45 @@
-# chest-server
+# ChestsBackend
 
-# Info
-Server for the https://github.com/nolasemon/chest-client
+# Introduction
 
-# Requirements
-Run server -- `pip3 install flask`.
+This repository contains implementation for the server-side of the "Chests" card game.
 
-You want to install `pytest` too, personally find how to do it.
+## Remark
 
-# Execution
-Run server `python3 run.py`
+Nobody tried to run the project on any software except
 
-Run tests `pytest -v`
+```
+Linux 5.10.59-1-MANJARO, python 3.9.6 (64-bit)
+```
+
+# Installation and running
+
+Server has got some dependencies, which you have to install. While you are at the root of the project, run this at your command prompt
+
+```
+pip3 install -r req_prod.txt
+```
+
+Run this to start server in development mode
+
+```
+python3 run.py
+```
+
+# Issues
+
+It will be great if you will submit an issue, so for your comfort, no rules here.
 
 # Contributing
-Write some code. Write some tests that actually check your code. Run tests. If all passed -- commit.
+
+There are additional dependencies for contributors, to install them, run
+
+```
+pip3 install -r req_dev.txt
+```
+
+## Process
+
+- Write code
+- Write tests
+- Create pull request
