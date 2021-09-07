@@ -1,5 +1,5 @@
 import os, json, datetime
-
+from functools import wraps
 
 class Logger:
 
@@ -30,16 +30,19 @@ class Logger:
 
 
   def gen_exception_logger(self):
-    def exception_logger(func):
-      def wrapper():
-        self.log(func.__name__, "...")
+    def exception_logger(*args, **kwargs):
+      def func_wrapper(func):
+        @wraps(func)
+        def wrapper(*w_args, **w_kwargs):
+          self.log(func.__name__, "...")
 
-        try:
-          return func()
+          try:
+            return func(*w_args, **w_kwargs)
 
-        except Exception as e:
-          self.log(func.__name__, str(e))
-          return False
+          except Exception as e:
+            self.log(func.__name__, str(e))
+            return kwargs["fail_output"]
 
-      return wrapper
+        return wrapper
+      return func_wrapper
     return exception_logger

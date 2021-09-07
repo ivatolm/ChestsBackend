@@ -4,6 +4,7 @@ from . import logger
 
 
 logger = logger.Logger("room")
+exception_logger = logger.gen_exception_logger()
 
 
 class Room:
@@ -14,16 +15,14 @@ class Room:
     self.deck = [i for i in range(1, 52 + 1)]
 
 
+  @exception_logger(fail_output=("-1", {}))
   def add_player(self, nickname):
     if self.st != 0:
-      return "-1", {}
+      raise Exception("This action isn't allowed in current game state.")
 
     player_id = str(uuid.uuid4())
 
-    if player_id in self.players:
-      logger.log(__name__, "Unique id generation failed.")
-      player_id = "-1"
-    else:
+    if player_id not in self.players:
       self.players[player_id] = {
         "nickname": nickname,
         "ready": False,
@@ -37,32 +36,35 @@ class Room:
         for player_id in self.players.keys():
           self.players[player_id]["state"] = 1
 
-    return player_id, self.settings
+      return player_id, self.settings
+
+    raise Exception("Unique id generation failed.")
 
 
+  @exception_logger(fail_output=False)
   def set_ready(self, player_id):
     if self.st != 1:
-      return False
+      raise Exception("This action isn't allowed in current game state.")
 
     if player_id in self.players:
       if self.players[player_id]["state"] != 2:
-        return False
+        raise Exception("This action isn't allowed in current player state.")
 
       self.players[player_id]["state"] = 3
       self.players[player_id]["ready"] = True
       return True
-    else:
-      logger.log(__name__, "Player with given id wasn't found.")
-      return False
+
+    raise Exception("Player with given id wasn't found.")
 
  
+  @exception_logger(fail_output=False)
   def wait(self, player_id):
     if self.st != 1:
-      return False
+      raise Exception("This action isn't allowed in current game state.")
 
     if player_id in self.players:
       if self.players[player_id]["state"] != 3:
-        return False
+        raise Exception("This action isn't allowed in current player state.")
 
       while (
         (len(self.players) != self.settings["players_count"])
@@ -74,32 +76,32 @@ class Room:
       self.players[player_id]["ready"] = False
 
       return True
-    else:
-      logger.log(__name__, "Player with given id wasn't found.")
-      return False
+
+    raise Exception("Player with given id wasn't found.")
 
 
+  @exception_logger(fail_output=(-1, []))
   def state(self, player_id):
     if self.st != 1:
-      return (-1, [])
+      raise Exception("This action isn't allowed in current game state.")
 
     if player_id in self.players:
       if self.players[player_id]["state"] != 1:
-        return (-1, [])
+        raise Exception("This action isn't allowed in current player state.")
 
       self.players[player_id]["state"] = 2
       return (
         self.players[player_id]["turn"],
         list(self.players[player_id]["cards"]),
       )
-    else:
-      logger.log(__name__, "Player with given id wasn't found.")
-      return False
+
+    raise Exception("Player with given id wasn't found.")
 
 
+  @exception_logger(fail_output=False)
   def take(self, player_id, nickname, card):
     if self.st != 1:
-      return False
+      raise Exception("This action isn't allowed in current game state.")
 
     if (
       (player_id in self.players)
@@ -107,7 +109,7 @@ class Room:
       (nickname in [player["nickname"] for player in self.players.values()])
     ):
       if self.players[player_id]["state"] != 2:
-        return False
+        raise Exception("This action isn't allowed in current player state.")
 
       target_player = None
       for player_id, player_data in self.players.items():
@@ -119,26 +121,24 @@ class Room:
         self.players[player_id]["cards"].append(card)
         self.players[target_player]["cards"].remove(card)
         return True
-      else:
-        logger.log(__name__, "Target player doesn't have specified card.") 
-        return False
-    else:
-      logger.log(__name__, "Player with given id or nickname wasn't found.")
-      return False
+
+      raise Exception("Target player doesn't have specified card.")
+
+    raise Exception("Player with given id or nickname wasn't found.")
 
 
+  @exception_logger(fail_output=False)
   def pull(self, player_id):
     if self.st != 1:
-      return False
+      raise Exception("This action isn't allowed in current game state.")
 
     if player_id in self.players:
       if self.players[player_id]["state"] != 2:
-        return False
+        raise Exception("This action isn't allowed in current player state.")
 
       card = random.choice(self.deck)
       self.players[player_id]["cards"].append(card)
       self.deck.remove(card)
       return True
-    else:
-      logger.log(__name__, "Player with given id wasn't found.")
-      return False
+
+    raise Exception("Player with given id wasn't found.")

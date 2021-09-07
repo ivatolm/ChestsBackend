@@ -9,7 +9,7 @@ exception_logger = logger.gen_exception_logger()
 
 
 @app.route("/api/createRoom", methods=["POST"], endpoint="create_room")
-@exception_logger
+@exception_logger(fail_output=False)
 def create_room():
   data = request.json
 
@@ -19,14 +19,16 @@ def create_room():
   }):
     raise Exception("Data validation failed.")
 
+  logger.log("here", game.create_room)
   room_id = game.create_room(data)
+  logger.log(__name__, room_id)
   return {
     "room_id": room_id
   }
 
 
 @app.route("/api/joinRoom", methods=["POST"], endpoint="join_room")
-@exception_logger
+@exception_logger(fail_output=False)
 def join_room():
   data = request.json
 
@@ -44,7 +46,7 @@ def join_room():
 
 
 @app.route("/api/ready", methods=["POST"], endpoint="ready")
-@exception_logger
+@exception_logger(fail_output=False)
 def ready():
   data = request.json
 
@@ -62,7 +64,7 @@ def ready():
 
 
 @app.route("/api/wait", methods=["POST"], endpoint="wait")
-@exception_logger
+@exception_logger(fail_output=False)
 def wait():
   data = request.json
 
@@ -79,7 +81,7 @@ def wait():
 
 
 @app.route("/api/state", methods=["POST"], endpoint="state")
-@exception_logger
+@exception_logger(fail_output=False)
 def state():
   data = request.json
 
@@ -97,7 +99,7 @@ def state():
 
 
 @app.route("/api/take", methods=["POST"], endpoint="take")
-@exception_logger
+@exception_logger(fail_output=False)
 def take():
   data = request.json
 
@@ -116,7 +118,7 @@ def take():
 
 
 @app.route("/api/pull", methods=["POST"], endpoint="pull")
-@exception_logger
+@exception_logger(fail_output=False)
 def pull():
   data = request.json
 
