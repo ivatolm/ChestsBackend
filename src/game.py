@@ -4,7 +4,8 @@ from . import logger
 from .room import Room
 
 
-GAME_LOGGER = logger.Logger()
+logger = logger.Logger("game")
+
 
 class Game:
   def __init__(self):
@@ -16,7 +17,7 @@ class Game:
     id = str(uuid.uuid4())
 
     if id in self.rooms:
-      GAME_LOGGER.log("GAME :: create_room", "Unique id generation failed.")
+      logger.log(__name__, "Unique id generation failed.")
       id = "-1"
     else:
       self.rooms[id] = room
@@ -36,7 +37,7 @@ class Game:
       return player_id, room_settings
 
     except Exception as e:
-      GAME_LOGGER.log("GAME :: join_room", str(e))
+      logger.log(__name__, str(e))
       return "-1", {}
 
 
@@ -51,7 +52,7 @@ class Game:
         return result
 
     except Exception as e:
-      GAME_LOGGER.log("GAME :: ready", str(e))
+      logger.log(__name__, str(e))
       return False
 
 
@@ -66,7 +67,7 @@ class Game:
         return result
     
     except Exception as e:
-      GAME_LOGGER.log("GAME :: wait", str(e))
+      logger.log(__name__, str(e))
       return False
 
 
@@ -81,7 +82,7 @@ class Game:
         return result
 
     except Exception as e:
-      GAME_LOGGER.log("GAME :: state", str(e))
+      logger.log(__name__, str(e))
       return False
 
 
@@ -101,7 +102,7 @@ class Game:
         return result
   
     except Exception as e:
-      GAME_LOGGER.log("GAME :: take", str(e))
+      logger.log(__name__, str(e))
       return False
 
 
@@ -116,5 +117,5 @@ class Game:
         return result
     
     except Exception as e:
-      GAME_LOGGER.log("GAME :: pull", str(e))
+      logger.log(__name__, str(e))
       return False

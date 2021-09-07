@@ -5,7 +5,7 @@ class Logger:
 
   CONFIG_FILE = "config.json"
 
-  def __init__(self):
+  def __init__(self, name):
     if self.CONFIG_FILE not in os.listdir("."):
       print(f"Couldn't create Logger: config file not found")
       return
@@ -17,12 +17,29 @@ class Logger:
         return
 
       self.log_file = config["logFile"]
-    
+      self.name = name
+
     with open(self.log_file, 'w') as log_file:
       log_file.write('')
 
 
   def log(self, who, msg):
     with open(self.log_file, 'a') as log_file:
-      log_msg = f"{datetime.datetime.now()} :: {who} :: {str(msg)}\n"
+      log_msg = f"{datetime.datetime.now()} :: {self.name} :: {who} :: {str(msg)}\n"
       log_file.write(log_msg)
+
+
+  def gen_exception_logger(self):
+    def exception_logger(func):
+      def wrapper():
+        self.log(func.__name__, "...")
+
+        try:
+          return func()
+
+        except Exception as e:
+          self.log(func.__name__, str(e))
+          return False
+
+      return wrapper
+    return exception_logger

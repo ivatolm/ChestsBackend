@@ -1,7 +1,8 @@
 from . import logger
 
 
-TOOLS_LOGGER = logger.Logger()
+logger = logger.Logger("tools")
+
 
 def validate(x, y):
   try:
@@ -16,13 +17,13 @@ def validate(x, y):
       if not isinstance(x[key], item):
         result = False
 
-      TOOLS_LOGGER.log(
-        "DEBUG :: TOOLS :: Validate",
-        f"{key} ({type(x[key]).__name__} <> {item.__name__}) > " +
-          ("PASSED" if result else "FAILED"))
+      logger.log(
+        "validate",
+        f"{key} ({type(x[key]).__name__} <> {item.__name__}) :: " +
+          ("pass" if result else "fail"))
 
     return result
 
   except Exception as e:
-    TOOLS_LOGGER.log("TOOLS :: Validate", str(e))
+    logger.log("validate", str(e))
     return False

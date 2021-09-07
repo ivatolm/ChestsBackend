@@ -4,25 +4,12 @@ from . import app, game
 from . import logger, tools
 
 
-API_LOGGER = logger.Logger()
-
-
-def exceptionLogger(func):
-  def wrapper():
-    API_LOGGER.log(f"API :: {func.__name__}", "...")
-
-    try:
-      return func()
-
-    except Exception as e:
-      API_LOGGER.log(f"API :: {func.__name__}", str(e))
-      return False
-
-  return wrapper
+logger = logger.Logger("api")
+exception_logger = logger.gen_exception_logger()
 
 
 @app.route("/api/createRoom", methods=["POST"], endpoint="create_room")
-@exceptionLogger
+@exception_logger
 def create_room():
   data = request.json
 
@@ -39,7 +26,7 @@ def create_room():
 
 
 @app.route("/api/joinRoom", methods=["POST"], endpoint="join_room")
-@exceptionLogger
+@exception_logger
 def join_room():
   data = request.json
 
@@ -57,7 +44,7 @@ def join_room():
 
 
 @app.route("/api/ready", methods=["POST"], endpoint="ready")
-@exceptionLogger
+@exception_logger
 def ready():
   data = request.json
 
@@ -75,7 +62,7 @@ def ready():
 
 
 @app.route("/api/wait", methods=["POST"], endpoint="wait")
-@exceptionLogger
+@exception_logger
 def wait():
   data = request.json
 
@@ -92,7 +79,7 @@ def wait():
 
 
 @app.route("/api/state", methods=["POST"], endpoint="state")
-@exceptionLogger
+@exception_logger
 def state():
   data = request.json
 
@@ -110,7 +97,7 @@ def state():
 
 
 @app.route("/api/take", methods=["POST"], endpoint="take")
-@exceptionLogger
+@exception_logger
 def take():
   data = request.json
 
@@ -129,7 +116,7 @@ def take():
 
 
 @app.route("/api/pull", methods=["POST"], endpoint="pull")
-@exceptionLogger
+@exception_logger
 def pull():
   data = request.json
 
