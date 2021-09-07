@@ -66,8 +66,6 @@ def test_ready(client):
     "success": bool
   })
 
-  assert ready_data["success"] == True
-
 
 @pytest.mark.timeout(0.1)
 @pytest.mark.xfail(reason="Expected to fail")

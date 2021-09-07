@@ -9,11 +9,14 @@ class Room:
   def __init__(self, settings):
     self.settings = settings
     self.players = {}
-    self.turn = None
+    self.st = 0
     self.deck = [i for i in range(1, 52 + 1)]
 
 
   def add_player(self, nickname):
+    if self.st != 0:
+      return "-1", {}
+
     player_id = str(uuid.uuid4())
 
     if player_id in self.players:
@@ -24,23 +27,41 @@ class Room:
         "nickname": nickname,
         "ready": False,
         "turn": False,
-        "cards": []
+        "cards": [],
+        "state": 0
       }
+
+      if len(self.players) == self.settings["players_count"]:
+        self.st = 1
+        for player_id in self.players.keys():
+          self.players[player_id]["state"] = 1
 
     return player_id, self.settings
 
 
   def set_ready(self, player_id):
+    if self.st != 1:
+      return False
+
     if player_id in self.players:
+      if self.players[player_id]["state"] != 2:
+        return False
+
+      self.players[player_id]["state"] = 3
       self.players[player_id]["ready"] = True
       return True
     else:
       ROOM_LOGGER.log("ROOM :: set_ready", "Player with given id wasn't found.")
       return False
 
-
+ 
   def wait(self, player_id):
+    if self.st != 1:
+      return False
+
     if player_id in self.players:
+      if self.players[player_id]["state"] != 3:
+        return False
 
       while (
         (len(self.players) != self.settings["players_count"])
@@ -48,6 +69,7 @@ class Room:
         (False in [player["ready"] for player in self.players.values()])
       ):
         time.sleep(1)
+      self.players[player_id]["state"] = 1
       self.players[player_id]["ready"] = False
 
       return True
@@ -57,7 +79,14 @@ class Room:
 
 
   def state(self, player_id):
+    if self.st != 1:
+      return (-1, [])
+
     if player_id in self.players:
+      if self.players[player_id]["state"] != 1:
+        return (-1, [])
+
+      self.players[player_id]["state"] = 2
       return (
         self.players[player_id]["turn"],
         list(self.players[player_id]["cards"]),
@@ -68,11 +97,17 @@ class Room:
 
 
   def take(self, player_id, nickname, card):
+    if self.st != 1:
+      return False
+
     if (
       (player_id in self.players)
         and
       (nickname in [player["nickname"] for player in self.players.values()])
     ):
+      if self.players[player_id]["state"] != 2:
+        return False
+
       target_player = None
       for player_id, player_data in self.players.items():
         if player_data["nickname"] == nickname:
@@ -92,7 +127,13 @@ class Room:
 
 
   def pull(self, player_id):
+    if self.st != 1:
+      return False
+
     if player_id in self.players:
+      if self.players[player_id]["state"] != 2:
+        return False
+
       card = random.choice(self.deck)
       self.players[player_id]["cards"].append(card)
       self.deck.remove(card)
