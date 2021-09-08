@@ -1,8 +1,6 @@
-from src.api import join_room, take
-import pytest
-import src.tools as tools
+from src import app, tools
 
-from src import app, room
+import pytest
 
 
 @pytest.fixture
