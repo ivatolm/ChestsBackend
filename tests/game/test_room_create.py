@@ -28,7 +28,7 @@ def test_room_create_non_valid_name():
 def test_room_create_non_valid_size():
   room_settings = {
     "name": "DevRoom",
-    "players_count": 20
+    "players_count": 21
   }
 
   room_id = game.create_room(room_settings)

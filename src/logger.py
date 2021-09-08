@@ -34,14 +34,17 @@ class Logger:
       def func_wrapper(func):
         @wraps(func)
         def wrapper(*w_args, **w_kwargs):
-          self.log(func.__name__, "...")
+          self.log(func.__name__, ">>>")
+          result = None
 
           try:
-            return func(*w_args, **w_kwargs)
-
+            result = func(*w_args, **w_kwargs)
           except Exception as e:
             self.log(func.__name__, str(e))
-            return kwargs["fail_output"]
+            result = kwargs["fail_output"]
+
+          self.log(func.__name__, "<<<")
+          return result
 
         return wrapper
       return func_wrapper

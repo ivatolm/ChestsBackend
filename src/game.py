@@ -18,6 +18,17 @@ class Game:
     room = Room(room_settings)
     id = str(uuid.uuid4())
 
+    if (
+      (type(room_settings["name"]) != str)
+        or
+      (type(room_settings["players_count"]) != int)
+        or
+      (len(room_settings["name"]) > 50)
+        or
+      (room_settings["players_count"] > 20)
+    ):
+      raise Exception("'room_settings' doesn't meet the required constraints.")
+
     if id not in self.rooms:
       self.rooms[id] = room
       return id
@@ -29,7 +40,7 @@ class Game:
   def join_room(self, join_params):
     room_id, nickname = join_params["room_id"], join_params["nickname"]
 
-    if room_id in self.rooms:
+    if room_id in self.rooms and type(nickname) == str:
       player_id, room_settings = self.rooms[room_id].add_player(nickname)
       return player_id, room_settings
 
@@ -58,7 +69,7 @@ class Game:
     raise Exception("Invalid room id.")
 
 
-  @exception_logger(fail_output=False)
+  @exception_logger(fail_output=(-1, []))
   def state(self, state_params):
     room_id, player_id = state_params["room_id"], state_params["player_id"]
 

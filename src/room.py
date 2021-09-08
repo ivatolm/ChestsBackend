@@ -22,7 +22,11 @@ class Room:
 
     player_id = str(uuid.uuid4())
 
-    if player_id not in self.players:
+    if (
+      (player_id not in self.players)
+        and
+      (nickname not in [player["nickname"] for player in self.players.values()])
+    ):
       self.players[player_id] = {
         "nickname": nickname,
         "ready": False,

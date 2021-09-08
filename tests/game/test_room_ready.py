@@ -109,11 +109,6 @@ def test_room_ready_non_valid_game_state():
     "nickname": "Dev"
   })
 
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
   result = game.ready({
     "room_id": room_id,
     "player_id": player_id

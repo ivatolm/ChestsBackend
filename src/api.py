@@ -19,9 +19,7 @@ def create_room():
   }):
     raise Exception("Data validation failed.")
 
-  logger.log("here", game.create_room)
   room_id = game.create_room(data)
-  logger.log(__name__, room_id)
   return {
     "room_id": room_id
   }
