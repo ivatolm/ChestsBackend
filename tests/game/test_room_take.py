@@ -44,3 +44,211 @@ def test_room_take_ok():
     )
 
   assert True in results
+
+
+def test_room_take_non_valid_room_id():
+  room_settings = {
+    "name": "DevRoom",
+    "players_count": 2
+  }
+
+  room_id = game.create_room(room_settings)
+  player_id_1, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_1"
+  })
+  player_id_2, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_2"
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_2
+  })
+
+  game.pull({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  results = []
+  for i in range(1, 52 + 1):
+    results.append(
+      game.take({
+        "room_id": 0,
+        "player_id": player_id_2,
+        "nickname": "Dev_1",
+        "card": i
+      })
+    )
+
+  assert True not in results
+
+
+def test_room_take_non_valid_player_id():
+  room_settings = {
+    "name": "DevRoom",
+    "players_count": 2
+  }
+
+  room_id = game.create_room(room_settings)
+  player_id_1, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_1"
+  })
+  player_id_2, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_2"
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_2
+  })
+
+  game.pull({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  results = []
+  for i in range(1, 52 + 1):
+    results.append(
+      game.take({
+        "room_id": room_id,
+        "player_id": 0,
+        "nickname": "Dev_1",
+        "card": i
+      })
+    )
+
+  assert True not in results
+
+
+def test_room_take_non_valid_nickname():
+  room_settings = {
+    "name": "DevRoom",
+    "players_count": 2
+  }
+
+  room_id = game.create_room(room_settings)
+  player_id_1, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_1"
+  })
+  player_id_2, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_2"
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_2
+  })
+
+  game.pull({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  results = []
+  for i in range(1, 52 + 1):
+    results.append(
+      game.take({
+        "room_id": room_id,
+        "player_id": player_id_2,
+        "nickname": 0,
+        "card": i
+      })
+    )
+
+  assert True not in results
+
+
+def test_room_take_non_valid_card():
+  room_settings = {
+    "name": "DevRoom",
+    "players_count": 2
+  }
+
+  room_id = game.create_room(room_settings)
+  player_id_1, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_1"
+  })
+  player_id_2, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_2"
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  game.state({
+    "room_id": room_id,
+    "player_id": player_id_2
+  })
+
+  game.pull({
+    "room_id": room_id,
+    "player_id": player_id_1
+  })
+
+  results = []
+  for i in range(1, 52 + 1):
+    results.append(
+      game.take({
+        "room_id": room_id,
+        "player_id": player_id_2,
+        "nickname": "Dev_1",
+        "card": 0
+      })
+    )
+
+  assert True not in results
+
+
+def test_room_take_non_valid_game_state():
+  room_settings = {
+    "name": "DevRoom",
+    "players_count": 2
+  }
+
+  room_id = game.create_room(room_settings)
+  _, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_1"
+  })
+  player_id_2, _ = game.join_room({
+    "room_id": room_id,
+    "nickname": "Dev_2"
+  })
+  
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
+
+  assert type(result) == bool
+
+  assert result == False
