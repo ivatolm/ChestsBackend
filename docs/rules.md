@@ -1,3 +1,10 @@
+# Table of Contents
+
+- [Description](#description)
+- [Goal](#goal)
+- [Rules](#rules)
+- [Copyright](#copyright)
+
 # Description
 
 Chests is a logic card game. The essence of the game is to collect cards for yourself by guessing them from opponents, using leading questions. For this game, a playing deck of 36 or 52 cards is used. The number of participating people ranges from 2 to 6. So, one or more players can be the winners.

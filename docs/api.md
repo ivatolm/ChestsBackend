@@ -1,3 +1,13 @@
+# Table of Contents
+
+- [CreateRoom](#createroom)
+- [JoinRoom](#joinroom)
+- [State](#state)
+- [Take](#take)
+- [Pull](#pull)
+- [Ready](#ready)
+- [Wait](#wait)
+
 # CreateRoom
 
 ## Description
