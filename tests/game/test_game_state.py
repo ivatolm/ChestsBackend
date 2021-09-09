@@ -1,7 +1,7 @@
 from src import game
 
 
-def test_room_state_ok():
+def test_game_state_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -26,7 +26,7 @@ def test_room_state_ok():
   assert type(cards) == list
 
 
-def test_room_state_non_valid_room_id():
+def test_game_state_non_valid_room_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -54,7 +54,7 @@ def test_room_state_non_valid_room_id():
   assert cards == []
 
 
-def test_room_state_non_valid_player_id():
+def test_game_state_non_valid_player_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -82,7 +82,7 @@ def test_room_state_non_valid_player_id():
   assert cards == []
 
 
-def test_room_state_non_valid_game_state():
+def test_game_state_non_valid_game_state():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1

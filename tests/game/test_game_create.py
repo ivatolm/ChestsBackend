@@ -1,7 +1,7 @@
 from src import game
 
 
-def test_room_create_ok():
+def test_game_create_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -13,7 +13,7 @@ def test_room_create_ok():
   assert room_id != "-1"
 
 
-def test_room_create_non_valid_name():
+def test_game_create_non_valid_name():
   room_settings = {
     "name": 0,
     "players_count": 2
@@ -25,7 +25,7 @@ def test_room_create_non_valid_name():
   assert room_id == "-1"
 
 
-def test_room_create_non_valid_size():
+def test_game_create_non_valid_size():
   room_settings = {
     "name": "DevRoom",
     "players_count": 21

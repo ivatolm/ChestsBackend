@@ -1,7 +1,7 @@
 from src import game
 
 
-def test_room_take_ok():
+def test_game_take_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -46,7 +46,7 @@ def test_room_take_ok():
   assert True in results
 
 
-def test_room_take_non_valid_room_id():
+def test_game_take_non_valid_room_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -91,7 +91,7 @@ def test_room_take_non_valid_room_id():
   assert True not in results
 
 
-def test_room_take_non_valid_player_id():
+def test_game_take_non_valid_player_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -136,7 +136,7 @@ def test_room_take_non_valid_player_id():
   assert True not in results
 
 
-def test_room_take_non_valid_nickname():
+def test_game_take_non_valid_nickname():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -181,7 +181,7 @@ def test_room_take_non_valid_nickname():
   assert True not in results
 
 
-def test_room_take_non_valid_card():
+def test_game_take_non_valid_card():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -226,7 +226,7 @@ def test_room_take_non_valid_card():
   assert True not in results
 
 
-def test_room_take_non_valid_game_state():
+def test_game_take_non_valid_game_state():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2

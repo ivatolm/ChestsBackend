@@ -1,7 +1,7 @@
 from src import game
 
 
-def test_room_pull_ok():
+def test_game_pull_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -28,7 +28,7 @@ def test_room_pull_ok():
   assert result == True
 
 
-def test_room_pull_non_valid_room_id():
+def test_game_pull_non_valid_room_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -55,7 +55,7 @@ def test_room_pull_non_valid_room_id():
   assert result == False
 
 
-def test_room_pull_non_valid_player_id():
+def test_game_pull_non_valid_player_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -82,7 +82,7 @@ def test_room_pull_non_valid_player_id():
   assert result == False
 
 
-def test_room_pull_non_valid_game_state():
+def test_game_pull_non_valid_game_state():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1

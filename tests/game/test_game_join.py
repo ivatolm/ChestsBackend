@@ -1,7 +1,7 @@
 from src import game
 
 
-def test_room_join_ok():
+def test_game_join_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -19,7 +19,7 @@ def test_room_join_ok():
   assert room_settings == _room_settings
 
 
-def test_room_join_fill():
+def test_game_join_fill():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -43,7 +43,7 @@ def test_room_join_fill():
   assert _room_settings_1 == _room_settings_2 == room_settings
 
 
-def test_room_join_overfill():
+def test_game_join_overfill():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -66,7 +66,7 @@ def test_room_join_overfill():
   assert _room_settings_1 == room_settings and _room_settings_2 == {}
 
 
-def test_room_join_same_nicknames():
+def test_game_join_same_nicknames():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -89,7 +89,7 @@ def test_room_join_same_nicknames():
   assert _room_settings_1 == room_settings and _room_settings_2 == {}
 
 
-def test_room_join_non_valid_room_id():
+def test_game_join_non_valid_room_id():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -107,7 +107,7 @@ def test_room_join_non_valid_room_id():
   assert _room_settings == {}
 
 
-def test_room_join_non_valid_nickname():
+def test_game_join_non_valid_nickname():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -125,7 +125,7 @@ def test_room_join_non_valid_nickname():
   assert _room_settings == {}
 
 
-def test_room_join_non_valid_game_state():
+def test_game_join_non_valid_game_state():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
