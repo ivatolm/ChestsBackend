@@ -43,41 +43,6 @@ def join_room():
   }
 
 
-@app.route("/api/ready", methods=["POST"], endpoint="ready")
-@exception_logger(fail_output=False)
-def ready():
-  data = request.json
-
-  if not tools.validate(data, {
-    "room_id": str,
-    "player_id": str,
-    "ready": bool
-  }):
-    raise Exception("Data validation failed.")
-
-  result = game.ready(data)
-  return {
-    "success": result
-  }
-
-
-@app.route("/api/wait", methods=["POST"], endpoint="wait")
-@exception_logger(fail_output=False)
-def wait():
-  data = request.json
-
-  if not tools.validate(data, {
-    "room_id": str,
-    "player_id": str
-  }):
-    raise Exception("Data validation failed.")
-
-  result = game.wait(data)
-  return {
-    "success": result
-  }
-
-
 @app.route("/api/state", methods=["POST"], endpoint="state")
 @exception_logger(fail_output=False)
 def state():
@@ -127,6 +92,24 @@ def pull():
     raise Exception("Data validation failed.")
 
   result = game.pull(data)
+  return {
+    "success": result
+  }
+
+
+@app.route("/api/ready", methods=["POST"], endpoint="ready")
+@exception_logger(fail_output=False)
+def ready():
+  data = request.json
+
+  if not tools.validate(data, {
+    "room_id": str,
+    "player_id": str,
+    "ready": bool
+  }):
+    raise Exception("Data validation failed.")
+
+  result = game.ready(data)
   return {
     "success": result
   }

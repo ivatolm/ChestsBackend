@@ -47,28 +47,6 @@ class Game:
     raise Exception("Invalid room id.")
 
 
-  @exception_logger(fail_output=False)
-  def ready(self, ready_params):
-    room_id, player_id = ready_params["room_id"], ready_params["player_id"]
-
-    if room_id in self.rooms:
-      result = self.rooms[room_id].set_ready(player_id)
-      return result
-
-    raise Exception("Invalid room id.")
-
-
-  @exception_logger(fail_output=False)
-  def wait(self, wait_params):
-    room_id, player_id = wait_params["room_id"], wait_params["player_id"]
-
-    if room_id in self.rooms:
-      result = self.rooms[room_id].wait(player_id)
-      return result
-
-    raise Exception("Invalid room id.")
-
-
   @exception_logger(fail_output=(-1, []))
   def state(self, state_params):
     room_id, player_id = state_params["room_id"], state_params["player_id"]
@@ -102,6 +80,17 @@ class Game:
 
     if room_id in self.rooms:
       result = self.rooms[room_id].pull(player_id)
+      return result
+
+    raise Exception("Invalid room id.")
+
+
+  @exception_logger(fail_output=False)
+  def ready(self, ready_params):
+    room_id, player_id = ready_params["room_id"], ready_params["player_id"]
+
+    if room_id in self.rooms:
+      result = self.rooms[room_id].set_ready(player_id)
       return result
 
     raise Exception("Invalid room id.")
