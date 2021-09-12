@@ -6,7 +6,6 @@
 - [Take](#take)
 - [Pull](#pull)
 - [Ready](#ready)
-- [Wait](#wait)
 
 # CreateRoom
 
@@ -264,54 +263,6 @@ Used to mark player as ready.
 ## Request
 
 **URL**: `/api/ready`
-
-**Method**: `POST`
-
-**Parameters**:
-
-```json
-{
-  "room_id": "[String<UUID4>]",
-  "player_id": "[String<UUID4>]"
-}
-```
-
-**Response**:
-
-```json
-{
-  "success": "[Bool]"
-}
-```
-
-## Example
-
-**Request**:
-
-```json
-{
-  "room_id": "7bbe81ec-d15f-451d-92bf-6edd9dfc4c10",
-  "player_id": "8621eba8-03a4-4efe-a0a3-4fd313e9b7b5"
-}
-```
-
-**Response**:
-
-```json
-{
-  "success": 1
-}
-```
-
-# Wait
-
-## Description
-
-Used to wait until all players are ready.
-
-## Request
-
-**URL**: `/api/wait`
 
 **Method**: `POST`
 
