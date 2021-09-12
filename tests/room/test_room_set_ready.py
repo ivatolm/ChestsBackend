@@ -9,7 +9,7 @@ def test_room_set_ready_ok():
   }
   nickname = "Developer"
 
-  test_deck = [i for i in range(1, 52 + 1)]
+  test_deck = [i for i in range(52)]
 
   room = Room(room_settings)
   player_id, _ = room.add_player(nickname)
@@ -41,7 +41,7 @@ def test_room_set_ready_fill():
   nickname_1 = "Developer_1"
   nickname_2 = "Developer_2"
 
-  test_deck = [i for i in range(1, 52 + 1)]
+  test_deck = [i for i in range(52)]
 
   room = Room(room_settings)
   player_id_1, _ = room.add_player(nickname_1)

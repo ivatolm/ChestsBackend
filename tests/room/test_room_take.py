@@ -14,14 +14,19 @@ def test_room_take_ok():
   player_id_1, _ = room.add_player(nickname_1)
   player_id_2, _ = room.add_player(nickname_2)
 
-  turn_1, cards_1 = room.state(player_id_1)
-  turn_2, cards_2 = room.state(player_id_2)
+  turn_1, _ = room.state(player_id_1)
+  turn_2, _ = room.state(player_id_2)
+
+  room.players[player_id_1]["cards"] = [0, 1, 2, 3]
+  room.players[player_id_2]["cards"] = [13, 14, 15, 16]
+  exception = room.players[player_id_1]["cards"] + room.players[player_id_2]["cards"]
+  room.deck = [i for i in range(52) if i not in exception]
 
   result = None
   if turn_1:
-    result = room.take(player_id_1, nickname_2, cards_2[0])
+    result = room.take(player_id_1, nickname_2, 13)
   elif turn_2:
-    result = room.take(player_id_2, nickname_1, cards_1[0])
+    result = room.take(player_id_2, nickname_1, 1)
   assert result == True
 
   player_1 = room.players[player_id_1]
@@ -34,7 +39,7 @@ def test_room_take_ok():
   assert player_1["nickname"] == nickname_1
   if turn_1:
     assert len(player_1["cards"]) == 5
-    assert player_1["cards"] == cards_1 + cards_2[0]
+    assert player_1["cards"] == [0, 1, 2, 3] + [13]
   else:
     assert len(player_1["cards"]) == 3
 
@@ -48,6 +53,6 @@ def test_room_take_ok():
   assert player_2["nickname"] == nickname_2
   if turn_2:
     assert len(player_2["cards"]) == 5
-    assert player_2["cards"] == cards_2 + cards_1[0]
+    assert player_2["cards"] == [13, 14, 15, 16] + [1]
   else:
     assert len(player_2["cards"]) == 3

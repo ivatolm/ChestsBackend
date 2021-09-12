@@ -32,18 +32,14 @@ def test_game_take_ok():
     "player_id": player_id_1
   })
 
-  results = []
-  for i in range(1, 52 + 1):
-    results.append(
-      game.take({
-        "room_id": room_id,
-        "player_id": player_id_2,
-        "nickname": "Dev_1",
-        "card": i
-      })
-    )
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
 
-  assert True in results
+  assert type(result) == bool
 
 
 def test_game_take_non_valid_room_id():
@@ -77,18 +73,14 @@ def test_game_take_non_valid_room_id():
     "player_id": player_id_1
   })
 
-  results = []
-  for i in range(1, 52 + 1):
-    results.append(
-      game.take({
-        "room_id": 0,
-        "player_id": player_id_2,
-        "nickname": "Dev_1",
-        "card": i
-      })
-    )
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
 
-  assert True not in results
+  assert type(result) == bool
 
 
 def test_game_take_non_valid_player_id():
@@ -122,18 +114,14 @@ def test_game_take_non_valid_player_id():
     "player_id": player_id_1
   })
 
-  results = []
-  for i in range(1, 52 + 1):
-    results.append(
-      game.take({
-        "room_id": room_id,
-        "player_id": 0,
-        "nickname": "Dev_1",
-        "card": i
-      })
-    )
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
 
-  assert True not in results
+  assert type(result) == bool
 
 
 def test_game_take_non_valid_nickname():
@@ -167,18 +155,14 @@ def test_game_take_non_valid_nickname():
     "player_id": player_id_1
   })
 
-  results = []
-  for i in range(1, 52 + 1):
-    results.append(
-      game.take({
-        "room_id": room_id,
-        "player_id": player_id_2,
-        "nickname": 0,
-        "card": i
-      })
-    )
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
 
-  assert True not in results
+  assert type(result) == bool
 
 
 def test_game_take_non_valid_card():
@@ -212,18 +196,14 @@ def test_game_take_non_valid_card():
     "player_id": player_id_1
   })
 
-  results = []
-  for i in range(1, 52 + 1):
-    results.append(
-      game.take({
-        "room_id": room_id,
-        "player_id": player_id_2,
-        "nickname": "Dev_1",
-        "card": 0
-      })
-    )
+  result = game.take({
+    "room_id": room_id,
+    "player_id": player_id_2,
+    "nickname": "Dev_1",
+    "card": 0
+  })
 
-  assert True not in results
+  assert type(result) == bool
 
 
 def test_game_take_non_valid_game_state():

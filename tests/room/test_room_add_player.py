@@ -9,7 +9,7 @@ def test_room_add_player_ok():
   }
   nickname = "Developer"
 
-  test_deck = [i for i in range(1, 52 + 1)]
+  test_deck = [i for i in range(52)]
 
   room = Room(room_settings)
   assert room.st == 0

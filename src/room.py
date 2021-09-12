@@ -12,7 +12,7 @@ class Room:
     self.settings = settings
     self.players = {}
     self.st = 0
-    self.deck = [i for i in range(1, 52 + 1)]
+    self.deck = [i for i in range(52)]
 
 
   @exception_logger(fail_output=("-1", {}))
@@ -34,8 +34,17 @@ class Room:
         "wait": False
       }
 
+      for _ in range(4):
+        card = random.choice(self.deck)
+        self.deck.remove(card)
+        self.players[player_id]["cards"].append(card)
+
       self.players[player_id]["wait"] = True
-      self.__try_ch_st(1)
+      result = self.__try_ch_st(1)
+
+      if result:
+        first = random.choice(list(self.players.keys()))
+        self.players[first]["turn"] = True
 
       return player_id, self.settings
 
@@ -70,12 +79,19 @@ class Room:
       (nickname in [player["nickname"] for player in self.players.values()])
     ):
       target_player = None
-      for player_id, player_data in self.players.items():
+      for target_id, player_data in self.players.items():
         if player_data["nickname"] == nickname:
-          target_player = player_id
+          target_player = target_id
           break
 
-      if card in self.players[target_player]["cards"]:
+      denomination = card % 13
+      checks = [13 * i + denomination for i in range(4)]
+
+      if (
+        (card in self.players[target_player]["cards"])
+          and
+        (True in [True for check in checks if check in self.players[player_id]["cards"]])
+      ):
         self.players[player_id]["cards"].append(card)
         self.players[target_player]["cards"].remove(card)
         return True
