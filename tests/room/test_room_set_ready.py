@@ -21,15 +21,12 @@ def test_room_set_ready_ok():
   player = room.players[player_id]
   assert tools.validate(player, {
     "nickname": str,
-    "ready": bool,
     "turn": bool,
     "cards": list,
-    "state": int
+    "wait": bool,
   })
-  assert player["ready"] == True
   assert player["nickname"] == nickname
   assert len(player["cards"]) == 4
-  assert player["state"] == 0
 
   for card in player["cards"]:
     test_deck.remove(card)
@@ -60,28 +57,22 @@ def test_room_set_ready_fill():
   player_1 = room.players[player_id_1]
   assert tools.validate(player_1, {
     "nickname": str,
-    "ready": bool,
     "turn": bool,
     "cards": list,
-    "state": int
+    "wait": bool,
   })
-  assert player_1["ready"] == True
   assert player_1["nickname"] == nickname_1
   assert len(player_1["cards"]) == 4
-  assert player_1["state"] == 3
 
   player_2 = room.players[player_id_2]
   assert tools.validate(player_2, {
     "nickname": str,
-    "ready": bool,
     "turn": bool,
     "cards": list,
-    "state": int
+    "wait": bool,
   })
-  assert player_2["ready"] == True
   assert player_2["nickname"] == nickname_2
   assert len(player_2["cards"]) == 4
-  assert player_2["state"] == 3
 
   for card in player_1["cards"] + player_2["cards"]:
     test_deck.remove(card)

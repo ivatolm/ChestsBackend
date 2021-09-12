@@ -22,12 +22,9 @@ def test_room_state_ok():
   player = room.players[player_id]
   assert tools.validate(player, {
     "nickname": str,
-    "ready": bool,
     "turn": bool,
     "cards": list,
-    "state": int
+    "wait": bool,
   })
-  assert player["ready"] == False
   assert player["nickname"] == nickname
   assert len(player["cards"]) == 4
-  assert player["state"] == 2

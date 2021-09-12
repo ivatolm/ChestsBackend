@@ -44,7 +44,7 @@ class Room:
 
   @exception_logger(fail_output=(-1, []))
   def state(self, player_id):
-    if not self.__wait_st(1):
+    if not self.__wait_st(1, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
     if player_id in self.players:
@@ -61,7 +61,7 @@ class Room:
 
   @exception_logger(fail_output=False)
   def take(self, player_id, nickname, card):
-    if not self.__wait_st(2):
+    if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
     if (
@@ -87,7 +87,7 @@ class Room:
 
   @exception_logger(fail_output=False)
   def pull(self, player_id):
-    if not self.__wait_st(2):
+    if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
     if player_id in self.players:
@@ -101,7 +101,7 @@ class Room:
 
   @exception_logger(fail_output=False)
   def set_ready(self, player_id):
-    if not self.__wait_st(2):
+    if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
     if player_id in self.players:
@@ -114,11 +114,10 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def __wait_st(self, state):
+  def __wait_st(self, state, player_id):
     if not (
-      (self.st == 0 and state == 1) or
-      (self.st == 1 and state == 2) or
-      (self.st == 2 and state == 1)
+      (self.st == state) or
+      (self.players[player_id]["wait"])
     ):
       return False
 
@@ -130,7 +129,7 @@ class Room:
 
   @exception_logger(fail_output=False)
   def __try_ch_st(self, new_state):
-    change_cond = sum([player["wait"] for player in self.players])
+    change_cond = sum([player["wait"] for player in self.players.values()])
 
     if change_cond == self.settings["players_count"]:
       self.st = new_state
