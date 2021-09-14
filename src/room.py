@@ -44,10 +44,15 @@ class Room:
 
         for ord_pos, p_id in zip(order, self.players.keys()):
           for _ in range(4):
+            if len(self.deck) == 0:
+              raise Exception("Deck is empty.")
+
             card = random.choice(self.deck)
             self.deck.remove(card)
             self.players[p_id]["cards"].append(card)
+
           self.players[p_id]["order"] = ord_pos
+
           if ord_pos == 0:
             self.players[p_id]["turn"] = True
 
@@ -114,6 +119,9 @@ class Room:
       raise Exception("Failed to block on state-change waiting.")
 
     if player_id in self.players:
+      if len(self.deck) == 0:
+        raise Exception("Deck is empty.")
+
       card = random.choice(self.deck)
       self.players[player_id]["cards"].append(card)
       self.deck.remove(card)
