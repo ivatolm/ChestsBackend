@@ -12,6 +12,7 @@ class Room:
     self.settings = settings
     self.players = {}
     self.st = 0
+    self.turn = 0
     self.deck = [i for i in range(52)]
 
 
@@ -30,21 +31,27 @@ class Room:
       self.players[player_id] = {
         "nickname": nickname,
         "cards": [],
+        "order": -1,
         "turn": False,
         "wait": False
       }
 
-      for _ in range(4):
-        card = random.choice(self.deck)
-        self.deck.remove(card)
-        self.players[player_id]["cards"].append(card)
-
       self.players[player_id]["wait"] = True
-      result = self.__try_ch_st(1)
 
-      if result:
-        first = random.choice(list(self.players.keys()))
-        self.players[first]["turn"] = True
+      if self.__can_ch_st():
+        order = [i for i in range(len(self.players))]
+        random.shuffle(order)
+
+        for ord_pos, p_id in zip(order, self.players.keys()):
+          for _ in range(4):
+            card = random.choice(self.deck)
+            self.deck.remove(card)
+            self.players[p_id]["cards"].append(card)
+          self.players[p_id]["order"] = ord_pos
+          if ord_pos == 0:
+            self.players[p_id]["turn"] = True
+
+      self.__try_ch_st(1)
 
       return player_id, self.settings
 
@@ -110,6 +117,7 @@ class Room:
       card = random.choice(self.deck)
       self.players[player_id]["cards"].append(card)
       self.deck.remove(card)
+
       return True
 
     raise Exception("Player with given id wasn't found.")
@@ -122,11 +130,37 @@ class Room:
 
     if player_id in self.players:
       self.players[player_id]["wait"] = True
+
+      if self.__can_ch_st():
+        self.__change_turn()
+
       self.__try_ch_st(1)
 
       return True
 
     raise Exception("Player with given id wasn't found.")
+
+
+  @exception_logger(fail_output=False)
+  def __change_turn(self):
+    next_order_turn = None
+    for p_id, player in self.players.items():
+      turn, order = player["turn"], player["order"]
+      if turn:
+        next_order_turn = (order + 1) % self.settings["players_count"]
+        self.players[p_id]["turn"] = False
+        break
+
+    if next_order_turn == None:
+      raise Exception("Nobody is making a move.")
+
+    for p_id, player in self.players.items():
+      order = player["order"]
+      if order == next_order_turn:
+        self.players[p_id]["turn"] = True
+        break
+
+    return True
 
 
   @exception_logger(fail_output=False)
@@ -153,4 +187,13 @@ class Room:
         self.players[player_id]["wait"] = False
       return True
 
+    return False
+
+
+  @exception_logger(fail_output=False)
+  def __can_ch_st(self):
+    change_cond = sum([player["wait"] for player in self.players.values()])
+
+    if change_cond == self.settings["players_count"]:
+      return True
     return False

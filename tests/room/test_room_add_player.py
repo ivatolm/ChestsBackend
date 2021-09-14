@@ -5,7 +5,7 @@ from src.room import Room
 def test_room_add_player_ok():
   room_settings = {
     "name": "DevRoom",
-    "players_count": 2
+    "players_count": 1
   }
   nickname = "Developer"
 
