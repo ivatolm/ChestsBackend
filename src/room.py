@@ -13,6 +13,7 @@ class Room:
     self.players = {}
     self.st = 0
     self.turn = 0
+    self.finished = set()
     self.deck = [i for i in range(52)]
 
 
@@ -83,6 +84,7 @@ class Room:
       return (
         self.players[player_id]["turn"],
         list(self.players[player_id]["cards"]),
+        list(self.finished)
       )
 
     raise Exception("Player with given id wasn't found.")
@@ -159,6 +161,21 @@ class Room:
 
   @exception_logger(fail_output=False)
   def __change_turn(self):
+    if len(self.deck) == 0:
+      for p_id, player in self.players.items():
+        can_take = []
+        for card in player["cards"]:
+          denomination = card % 13
+          checks = [13 * i + denomination for i in range(4)]
+          can_take.extend(checks)
+
+        for card in can_take:
+          if card not in player["cards"]:
+            break
+        else:
+          self.players[p_id]["order"] = -1
+          self.finished.add(player["nickname"])
+
     next_order_turn = None
     for p_id, player in self.players.items():
       turn, order = player["turn"], player["order"]

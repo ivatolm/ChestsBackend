@@ -54,10 +54,11 @@ def state():
   }):
     raise Exception("Data validation failed.")
 
-  turn, cards = game.state(data)
+  turn, cards, finished = game.state(data)
   return {
     "turn": turn,
-    "cards": cards
+    "cards": cards,
+    "finished": finished
   }
 
 
