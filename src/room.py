@@ -16,6 +16,14 @@ class Room:
     self.deck = [i for i in range(52)]
 
 
+  @exception_logger(fail_output=False)
+  def validate(self):
+    if self.settings["players_count"] > 52 / 4:
+      raise Exception("Room settings doesn't meet the required constraints.")
+
+    return True
+
+
   @exception_logger(fail_output=("-1", {}))
   def add_player(self, nickname):
     if self.st != 0:

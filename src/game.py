@@ -16,16 +16,15 @@ class Game:
   @exception_logger(fail_output="-1")
   def create_room(self, room_settings):
     room = Room(room_settings)
+    if not room.validate():
+      raise Exception("Failed to create room with given parameters.")
+
     id = str(uuid.uuid4())
 
     if (
       (type(room_settings["name"]) != str)
         or
       (type(room_settings["players_count"]) != int)
-        or
-      (len(room_settings["name"]) > 50)
-        or
-      (room_settings["players_count"] > 20)
     ):
       raise Exception("'room_settings' doesn't meet the required constraints.")
 
