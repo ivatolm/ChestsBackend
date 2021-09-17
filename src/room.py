@@ -12,7 +12,7 @@ class Room:
     self.settings = settings
     self.players = {}
     self.st = 0
-    self.turn = 0
+    self.order = []
     self.finished = set()
     self.deck = [i for i in range(52)]
 
@@ -40,7 +40,6 @@ class Room:
       self.players[player_id] = {
         "nickname": nickname,
         "cards": [],
-        "order": -1,
         "turn": False,
         "wait": False
       }
@@ -48,10 +47,10 @@ class Room:
       self.players[player_id]["wait"] = True
 
       if self.__can_ch_st():
-        order = [i for i in range(len(self.players))]
-        random.shuffle(order)
+        self.order = [p_id for p_id in self.players.keys()]
+        random.shuffle(self.order)
 
-        for ord_pos, p_id in zip(order, self.players.keys()):
+        for p_id in self.players.keys():
           for _ in range(4):
             if len(self.deck) == 0:
               raise Exception("Deck is empty.")
@@ -60,10 +59,7 @@ class Room:
             self.deck.remove(card)
             self.players[p_id]["cards"].append(card)
 
-          self.players[p_id]["order"] = ord_pos
-
-          if ord_pos == 0:
-            self.players[p_id]["turn"] = True
+        self.players[self.order[0]]["turn"] = True
 
       self.__try_ch_st(1)
 
@@ -173,25 +169,16 @@ class Room:
           if card not in player["cards"]:
             break
         else:
-          self.players[p_id]["order"] = -1
+          if p_id in self.order:
+            self.order.remove(p_id)
           self.finished.add(player["nickname"])
 
-    next_order_turn = None
-    for p_id, player in self.players.items():
-      turn, order = player["turn"], player["order"]
-      if turn:
-        next_order_turn = (order + 1) % self.settings["players_count"]
-        self.players[p_id]["turn"] = False
-        break
+    if len(self.order) == 0:
+      raise Exception("Game finished.")
 
-    if next_order_turn == None:
-      raise Exception("Nobody is making a move.")
-
-    for p_id, player in self.players.items():
-      order = player["order"]
-      if order == next_order_turn:
-        self.players[p_id]["turn"] = True
-        break
+    self.players[self.order[0]]["turn"] = False
+    self.order = self.order[1:] + self.order[:1]
+    self.players[self.order[0]]["turn"] = True
 
     return True
 
