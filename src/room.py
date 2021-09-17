@@ -142,7 +142,7 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def set_ready(self, player_id):
+  def ready(self, player_id):
     if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 

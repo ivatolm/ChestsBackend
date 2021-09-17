@@ -89,7 +89,7 @@ class Game:
     room_id, player_id = ready_params["room_id"], ready_params["player_id"]
 
     if room_id in self.rooms:
-      result = self.rooms[room_id].set_ready(player_id)
+      result = self.rooms[room_id].ready(player_id)
       return result
 
     raise Exception("Invalid room id.")

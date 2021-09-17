@@ -105,8 +105,7 @@ def ready():
 
   if not tools.validate(data, {
     "room_id": str,
-    "player_id": str,
-    "ready": bool
+    "player_id": str
   }):
     raise Exception("Data validation failed.")
 
