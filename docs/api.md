@@ -130,7 +130,8 @@ Used to get current game state.
 ```json
 {
   "turn": "[Bool]",
-  "cards": "[List<Integer>]"
+  "cards": "[List<Integer>]",
+  "finished": "[List<Integer]"
 }
 ```
 
@@ -150,7 +151,8 @@ Used to get current game state.
 ```json
 {
   "turn": 0,
-  "cards": []
+  "cards": [],
+  "finished": []
 }
 ```
 
