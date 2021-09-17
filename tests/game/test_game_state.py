@@ -19,11 +19,12 @@ def test_game_state_ok():
   })
 
   assert type(state) == tuple
-  assert len(state) == 2
-  turn, cards = state
+  assert len(state) == 3
+  turn, cards, finished = state
 
   assert type(turn) == bool
   assert type(cards) == list
+  assert type(finished) == list
 
 
 def test_game_state_non_valid_room_id():
@@ -44,14 +45,16 @@ def test_game_state_non_valid_room_id():
   })
 
   assert type(state) == tuple
-  assert len(state) == 2
-  turn, cards = state
+  assert len(state) == 3
+  turn, cards, finished = state
 
   assert type(turn) == int
   assert type(cards) == list
+  assert type(finished) == list
 
   assert turn == -1
   assert cards == []
+  assert finished == []
 
 
 def test_game_state_non_valid_player_id():
@@ -72,14 +75,16 @@ def test_game_state_non_valid_player_id():
   })
 
   assert type(state) == tuple
-  assert len(state) == 2
-  turn, cards = state
+  assert len(state) == 3
+  turn, cards, finished = state
 
   assert type(turn) == int
   assert type(cards) == list
+  assert type(finished) == list
 
   assert turn == -1
   assert cards == []
+  assert finished == []
 
 
 def test_game_state_non_valid_game_state():
@@ -110,11 +115,13 @@ def test_game_state_non_valid_game_state():
   })
 
   assert type(state) == tuple
-  assert len(state) == 2
-  turn, cards = state
+  assert len(state) == 3
+  turn, cards, finished = state
 
   assert type(turn) == int
   assert type(cards) == list
+  assert type(finished) == list
 
   assert turn == -1
   assert cards == []
+  assert finished == []

@@ -46,7 +46,7 @@ class Game:
     raise Exception("Invalid room id.")
 
 
-  @exception_logger(fail_output=(-1, []))
+  @exception_logger(fail_output=(-1, [], []))
   def state(self, state_params):
     room_id, player_id = state_params["room_id"], state_params["player_id"]
 

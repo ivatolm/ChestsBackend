@@ -72,7 +72,7 @@ class Room:
     raise Exception("Unique id generation failed.")
 
 
-  @exception_logger(fail_output=(-1, []))
+  @exception_logger(fail_output=(-1, [], []))
   def state(self, player_id):
     if not self.__wait_st(1, player_id):
       raise Exception("Failed to block on state-change waiting.")

@@ -14,8 +14,8 @@ def test_room_take_ok():
   player_id_1, _ = room.add_player(nickname_1)
   player_id_2, _ = room.add_player(nickname_2)
 
-  turn_1, _ = room.state(player_id_1)
-  turn_2, _ = room.state(player_id_2)
+  turn_1, _, _ = room.state(player_id_1)
+  turn_2, _, _ = room.state(player_id_2)
 
   room.players[player_id_1]["cards"] = [0, 1, 2, 3]
   room.players[player_id_2]["cards"] = [13, 14, 15, 16]

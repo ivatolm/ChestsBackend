@@ -14,10 +14,12 @@ def test_room_state_ok():
 
   result = room.state(player_id)
   assert type(result) == tuple
-  assert len(result) == 2
+  assert len(result) == 3
 
-  turn, cards = result
-  assert type(turn) == bool and type(cards) == list
+  turn, cards, finished = result
+  assert type(turn) == bool
+  assert type(cards) == list
+  assert type(finished) == list
 
   player = room.players[player_id]
   assert tools.validate(player, {
