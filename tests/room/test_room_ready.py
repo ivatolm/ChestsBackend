@@ -2,7 +2,7 @@ from src import tools
 from src.room import Room
 
 
-def test_room_set_ready_ok():
+def test_room_ready_ok():
   room_settings = {
     "name": "DevRoom",
     "players_count": 1
@@ -15,7 +15,7 @@ def test_room_set_ready_ok():
   player_id, _ = room.add_player(nickname)
   room.state(player_id)
 
-  result = room.set_ready(player_id)
+  result = room.ready(player_id)
   assert result == True
 
   player = room.players[player_id]
@@ -33,7 +33,7 @@ def test_room_set_ready_ok():
   assert room.deck == test_deck
 
 
-def test_room_set_ready_fill():
+def test_room_ready_fill():
   room_settings = {
     "name": "DevRoom",
     "players_count": 2
@@ -50,8 +50,8 @@ def test_room_set_ready_fill():
   room.state(player_id_1)
   room.state(player_id_2)
 
-  result_1 = room.set_ready(player_id_1)
-  result_2 = room.set_ready(player_id_2)
+  result_1 = room.ready(player_id_1)
+  result_2 = room.ready(player_id_2)
   assert result_1 == result_2 == True
 
   player_1 = room.players[player_id_1]
