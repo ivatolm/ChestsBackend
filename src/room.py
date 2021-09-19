@@ -41,7 +41,8 @@ class Room:
         "nickname": nickname,
         "cards": [],
         "turn": False,
-        "wait": False
+        "wait": False,
+        "finish": False
       }
 
       self.players[player_id]["wait"] = True
@@ -49,6 +50,7 @@ class Room:
       if self.__can_ch_st():
         self.order = [p_id for p_id in self.players.keys()]
         random.shuffle(self.order)
+        self.players[self.order[0]]["turn"] = True
 
         for p_id in self.players.keys():
           for _ in range(4):
@@ -58,8 +60,6 @@ class Room:
             card = random.choice(self.deck)
             self.deck.remove(card)
             self.players[p_id]["cards"].append(card)
-
-        self.players[self.order[0]]["turn"] = True
 
       self.__try_ch_st(1)
 
@@ -80,7 +80,7 @@ class Room:
       return (
         self.players[player_id]["turn"],
         list(self.players[player_id]["cards"]),
-        list(self.finished)
+        [player["nickname"] for player in self.players.values() if player["finish"]]
       )
 
     raise Exception("Player with given id wasn't found.")
@@ -171,7 +171,7 @@ class Room:
         else:
           if p_id in self.order:
             self.order.remove(p_id)
-          self.finished.add(player["nickname"])
+          self.players[p_id]["finish"] = True
 
     if len(self.order) == 0:
       raise Exception("Game finished.")
@@ -185,9 +185,12 @@ class Room:
 
   @exception_logger(fail_output=False)
   def __wait_st(self, state, player_id):
-    if not (
-      (self.st == state) or
-      (self.players[player_id]["wait"])
+    if self.st == state:
+      return True
+
+    if (
+      (not self.players[player_id]["wait"]) or
+      (self.players[player_id]["finish"])
     ):
       return False
 
@@ -199,9 +202,12 @@ class Room:
 
   @exception_logger(fail_output=False)
   def __try_ch_st(self, new_state):
-    change_cond = sum([player["wait"] for player in self.players.values()])
+    waiting, finished = 0, 0
+    for player in self.players.values():
+      waiting += player["wait"]
+      finished += player["finish"]
 
-    if change_cond == self.settings["players_count"]:
+    if waiting == self.settings["players_count"] - finished:
       self.st = new_state
       for player_id, _ in self.players.items():
         self.players[player_id]["wait"] = False
@@ -212,8 +218,9 @@ class Room:
 
   @exception_logger(fail_output=False)
   def __can_ch_st(self):
-    change_cond = sum([player["wait"] for player in self.players.values()])
+    waiting, finished = 0, 0
+    for player in self.players.values():
+      waiting += player["wait"]
+      finished += player["finish"]
 
-    if change_cond == self.settings["players_count"]:
-      return True
-    return False
+    return waiting == self.settings["players_count"] - finished
