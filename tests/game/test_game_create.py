@@ -1,4 +1,5 @@
 from src import game
+from fixtures import *
 
 
 def test_game_create_ok():

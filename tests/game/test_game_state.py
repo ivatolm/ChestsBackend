@@ -1,127 +1,65 @@
 from src import game
+from fixtures import *
 
 
-def test_game_state_ok():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_state_ok(room_data_2, join_data_2):
+  for join_data in join_data_2:
+    state_data = game.state({
+      "room_id": room_data_2["room_id"],
+      "player_id": join_data["player_id"]
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+    assert type(state_data) == tuple and len(state_data) == 3
+    turn, cards, finished = state_data
 
-  state = game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  assert type(state) == tuple
-  assert len(state) == 3
-  turn, cards, finished = state
-
-  assert type(turn) == bool
-  assert type(cards) == list
-  assert type(finished) == list
+    assert (
+      type(turn) == bool and
+      type(cards) == list and
+      type(finished) == list
+    )
 
 
-def test_game_state_non_valid_room_id():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_state_non_valid_room_id(join_data_2):
+  for join_data in join_data_2:
+    state_data = game.state({
+      "room_id": 0,
+      "player_id": join_data["player_id"]
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+    assert type(state_data) == tuple and len(state_data) == 3
+    turn, cards, finished = state_data
 
-  state = game.state({
-    "room_id": 0,
-    "player_id": player_id
-  })
+    assert (
+      type(turn) == int and
+      type(cards) == list and
+      type(finished) == list
+    )
 
-  assert type(state) == tuple
-  assert len(state) == 3
-  turn, cards, finished = state
-
-  assert type(turn) == int
-  assert type(cards) == list
-  assert type(finished) == list
-
-  assert turn == -1
-  assert cards == []
-  assert finished == []
+  assert (
+    turn == -1 and
+    cards == [] and
+    finished == []
+  )
 
 
-def test_game_state_non_valid_player_id():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_state_non_valid_player_id(room_data_2, join_data_2):
+  for _ in join_data_2:
+    state_data = game.state({
+      "room_id": room_data_2["room_id"],
+      "player_id": 0
+    })
 
-  room_id = game.create_room(room_settings)
-  _, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+    assert type(state_data) == tuple and len(state_data) == 3
+    turn, cards, finished = state_data
 
-  state = game.state({
-    "room_id": room_id,
-    "player_id": 0
-  })
+    assert (
+      type(turn) == int and
+      type(cards) == list and
+      type(finished) == list
+    )
 
-  assert type(state) == tuple
-  assert len(state) == 3
-  turn, cards, finished = state
-
-  assert type(turn) == int
-  assert type(cards) == list
-  assert type(finished) == list
-
-  assert turn == -1
-  assert cards == []
-  assert finished == []
-
-
-def test_game_state_non_valid_game_state():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
-
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
-
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  game.pull({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  state = game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  assert type(state) == tuple
-  assert len(state) == 3
-  turn, cards, finished = state
-
-  assert type(turn) == int
-  assert type(cards) == list
-  assert type(finished) == list
-
-  assert turn == -1
-  assert cards == []
-  assert finished == []
+  assert (
+    turn == -1 and
+    cards == [] and
+    finished == []
+  )

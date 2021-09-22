@@ -1,119 +1,53 @@
 from src import game
+from fixtures import *
 
 
-def test_game_ready_ok():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_ready_ok(room_data_2, join_data_2):
+  for join_data in join_data_2:
+    game.state({
+      "room_id": room_data_2["room_id"],
+      "player_id": join_data["player_id"]
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+  for join_data in join_data_2:
+    ready_data = game.ready({
+      "room_id": room_data_2["room_id"],
+      "player_id": join_data["player_id"]
+    })
 
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  game.pull({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  result = game.ready({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  assert type(result) == bool
-
-  assert result == True
+    assert type(ready_data) == bool
+    assert ready_data == True
 
 
-def test_game_ready_non_valid_room_id():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_ready_non_valid_room_id(room_data_2, join_data_2):
+  for join_data in join_data_2:
+    game.state({
+      "room_id": room_data_2["room_id"],
+      "player_id": join_data["player_id"]
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+  for join_data in join_data_2:
+    ready_data = game.ready({
+      "room_id": 0,
+      "player_id": join_data["player_id"]
+    })
 
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  game.pull({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  result = game.ready({
-    "room_id": 0,
-    "player_id": player_id
-  })
-
-  assert type(result) == bool
-
-  assert result == False
+    assert type(ready_data) == bool
+    assert ready_data == False
 
 
-def test_game_ready_non_valid_player_id():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_ready_non_valid_player_id(room_data_2, join_data_2):
+  for join_data in join_data_2:
+    game.state({
+      "room_id": room_data_2["room_id"],
+      "player_id": join_data["player_id"]
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
+  for join_data in join_data_2:
+    ready_data = game.ready({
+      "room_id": room_data_2["room_id"],
+      "player_id": 0
+    })
 
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  game.pull({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  result = game.ready({
-    "room_id": room_id,
-    "player_id": 0
-  })
-
-  assert type(result) == bool
-
-  assert result == False
-
-
-def test_game_ready_non_valid_game_state():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
-
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
-
-  result = game.ready({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  assert type(result) == bool
-
-  assert result == False
+    assert type(ready_data) == bool
+    assert ready_data == False

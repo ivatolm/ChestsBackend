@@ -1,153 +1,77 @@
 from src import game
+from fixtures import *
 
 
-def test_game_join_ok():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 2
-  }
+def test_game_join_ok(room_data_2):
+  for i in range(1):
+    player_id, _ = game.join_room({
+      "room_id": room_data_2["room_id"],
+      "nickname": f"Player_{i}"
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _room_settings = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
-
-  assert type(player_id) == str
-  assert player_id != "-1"
-
-  assert room_settings == _room_settings
+    assert type(player_id) == str
+    assert player_id != "-1"
 
 
-def test_game_join_fill():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 2
-  }
+def test_game_join_fill(room_data_2):
+  player_ids = set()
+  for i in range(2):
+    player_id, _ = game.join_room({
+      "room_id": room_data_2["room_id"],
+      "nickname": f"Player_{i}"
+    })
+    player_ids.add(player_id)
 
-  room_id = game.create_room(room_settings)
-  player_id_1, _room_settings_1 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_1"
-  })
-
-  player_id_2, _room_settings_2 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_2"
-  })
-
-  assert type(player_id_1) == type(player_id_2) == str
-  assert player_id_1 != "-1" and player_id_2 != "-1"
-  assert player_id_1 != player_id_2
-
-  assert _room_settings_1 == _room_settings_2 == room_settings
+    assert type(player_id) == str
+    assert player_id != "-1"
+  assert len(player_ids) == 2
 
 
-def test_game_join_overfill():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_join_overfill(room_data_2):
+  for i in range(3):
+    player_id, _ = game.join_room({
+      "room_id": room_data_2["room_id"],
+      "nickname": f"Player_{i}"
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id_1, _room_settings_1 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_1"
-  })
-
-  player_id_2, _room_settings_2 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_2"
-  })
-
-  assert type(player_id_1) == type(player_id_2) == str
-  assert player_id_1 != "-1" and player_id_2 == "-1"
-
-  assert _room_settings_1 == room_settings and _room_settings_2 == {}
+    assert type(player_id) == str
+    if i < 2:
+      assert player_id != "-1"
+    else:
+      assert player_id == "-1"
 
 
-def test_game_join_same_nicknames():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 2
-  }
+def test_game_join_same_nicknames(room_data_2):
+  for i in range(2):
+    player_id, _ = game.join_room({
+      "room_id": room_data_2["room_id"],
+      "nickname": "Player"
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id_1, _room_settings_1 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
-
-  player_id_2, _room_settings_2 = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev"
-  })
-
-  assert type(player_id_1) == type(player_id_2) == str
-  assert player_id_1 != "-1" and player_id_2 == "-1"
-
-  assert _room_settings_1 == room_settings and _room_settings_2 == {}
+    assert type(player_id) == str
+    if i == 0:
+      assert player_id != "-1"
+    else:
+      assert player_id == "-1"
 
 
 def test_game_join_non_valid_room_id():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+  for i in range(2):
+    player_id, _ = game.join_room({
+      "room_id": 0,
+      "nickname": f"Player_{i}"
+    })
 
-  _ = game.create_room(room_settings)
-  player_id, _room_settings = game.join_room({
-    "room_id": 0,
-    "nickname": "Dev"
-  })
-
-  assert type(player_id) == str
-  assert player_id == "-1"
-
-  assert _room_settings == {}
+    assert type(player_id) == str
+    assert player_id == "-1"
 
 
-def test_game_join_non_valid_nickname():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
+def test_game_join_non_valid_nickname(room_data_2):
+  for _ in range(2):
+    player_id, _ = game.join_room({
+      "room_id": room_data_2["room_id"],
+      "nickname": 0
+    })
 
-  room_id = game.create_room(room_settings)
-  player_id, _room_settings = game.join_room({
-    "room_id": room_id,
-    "nickname": 0
-  })
-
-  assert type(player_id) == str
-  assert player_id == "-1"
-
-  assert _room_settings == {}
-
-
-def test_game_join_non_valid_game_state():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
-
-  room_id = game.create_room(room_settings)
-  player_id, _ = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_1"
-  })
-
-  game.state({
-    "room_id": room_id,
-    "player_id": player_id
-  })
-
-  player_id, _room_settings = game.join_room({
-    "room_id": room_id,
-    "nickname": "Dev_2"
-  })
-
-  assert type(player_id) == str
-  assert player_id == "-1"
-
-  assert _room_settings == {}
+    assert type(player_id) == str
+    assert player_id == "-1"
