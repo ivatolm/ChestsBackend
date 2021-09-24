@@ -1,6 +1,5 @@
 from src import tools
-from fixtures import *
-import random
+from api_fixtures import *
 
 
 def test_api_take_ok(client, room_data_2, join_data_2):

@@ -1,11 +1,11 @@
 from src import game
-from fixtures import *
+from game_fixtures import *
 
 
 def test_game_join_ok(room_data_2):
   for i in range(1):
     player_id, _ = game.join_room({
-      "room_id": room_data_2["room_id"],
+      "room_id": room_data_2,
       "nickname": f"Player_{i}"
     })
 
@@ -17,7 +17,7 @@ def test_game_join_fill(room_data_2):
   player_ids = set()
   for i in range(2):
     player_id, _ = game.join_room({
-      "room_id": room_data_2["room_id"],
+      "room_id": room_data_2,
       "nickname": f"Player_{i}"
     })
     player_ids.add(player_id)
@@ -30,7 +30,7 @@ def test_game_join_fill(room_data_2):
 def test_game_join_overfill(room_data_2):
   for i in range(3):
     player_id, _ = game.join_room({
-      "room_id": room_data_2["room_id"],
+      "room_id": room_data_2,
       "nickname": f"Player_{i}"
     })
 
@@ -44,7 +44,7 @@ def test_game_join_overfill(room_data_2):
 def test_game_join_same_nicknames(room_data_2):
   for i in range(2):
     player_id, _ = game.join_room({
-      "room_id": room_data_2["room_id"],
+      "room_id": room_data_2,
       "nickname": "Player"
     })
 
@@ -69,7 +69,7 @@ def test_game_join_non_valid_room_id():
 def test_game_join_non_valid_nickname(room_data_2):
   for _ in range(2):
     player_id, _ = game.join_room({
-      "room_id": room_data_2["room_id"],
+      "room_id": room_data_2,
       "nickname": 0
     })
 

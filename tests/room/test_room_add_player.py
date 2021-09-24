@@ -1,69 +1,56 @@
 from src import tools
-from src.room import Room
+from room_fixtures import *
 
 
-def test_room_add_player_ok():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
-  nickname = "Developer"
+def test_room_add_player_ok(room_2, deck_52):
+  assert room_2.st == 0
+  assert room_2.deck == deck_52
 
-  test_deck = [i for i in range(52)]
+  player_ids = []
+  for i in range(1):
+    player_id, _room_settings = room_2.add_player(f"Player_{i}")
+    player_ids.append(player_id)
+    assert type(player_id) == str and type(_room_settings) == dict
+    assert _room_settings == room_2.settings
+    assert len(room_2.players) == i + 1
+    assert player_id in room_2.players
 
-  room = Room(room_settings)
-  assert room.st == 0
-  assert room.deck == test_deck
-
-  player_id, _room_settings = room.add_player(nickname)
-  assert type(player_id) == str and type(_room_settings) == dict
-  assert room_settings == _room_settings
-  assert len(room.players) == 1
-  assert player_id in room.players
-
-  player = room.players[player_id]
-  assert tools.validate(player, {
-    "nickname": str,
-    "turn": bool,
-    "cards": list,
-    "wait": bool,
-  })
-  assert player["nickname"] == nickname
-  assert len(player["cards"]) == 4
-
-  for card in player["cards"]:
-    test_deck.remove(card)
-  assert room.deck == test_deck
+    player = room_2.players[player_id]
+    assert tools.validate(player, {
+      "nickname": str,
+      "turn": bool,
+      "cards": list,
+      "wait": bool,
+    })
+    assert player["nickname"] == f"Player_{i}"
 
 
-def test_room_add_player_fill():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 2
-  }
-  nickname_1 = "Developer_1"
-  nickname_2 = "Developer_2"
+def test_room_add_player_fill(room_2, deck_52):
+  assert room_2.st == 0
+  assert room_2.deck == deck_52
 
-  room = Room(room_settings)
-  player_id_1, _ = room.add_player(nickname_1)
-  player_id_2, _ = room.add_player(nickname_2)
+  player_ids = []
+  for i in range(2):
+    player_id, _room_settings = room_2.add_player(f"Player_{i}")
+    player_ids.append(player_id)
+    assert type(player_id) == str and type(_room_settings) == dict
+    assert _room_settings == room_2.settings
+    assert len(room_2.players) == i + 1
+    assert player_id in room_2.players
 
-  player_1 = room.players[player_id_1]
-  assert tools.validate(player_1, {
-    "nickname": str,
-    "turn": bool,
-    "cards": list,
-    "wait": bool,
-  })
-  assert player_1["nickname"] == nickname_1
-  assert len(player_1["cards"]) == 4
+    player = room_2.players[player_id]
+    assert tools.validate(player, {
+      "nickname": str,
+      "turn": bool,
+      "cards": list,
+      "wait": bool,
+    })
+    assert player["nickname"] == f"Player_{i}"
 
-  player_2 = room.players[player_id_2]
-  assert tools.validate(player_2, {
-    "nickname": str,
-    "turn": bool,
-    "cards": list,
-    "wait": bool,
-  })
-  assert player_2["nickname"] == nickname_2
-  assert len(player_2["cards"]) == 4
+  for player_id in player_ids:
+    player = room_2.players[player_id]
+    assert len(player["cards"]) == 4
+
+    for card in player["cards"]:
+      deck_52.remove(card)
+  assert room_2.deck == deck_52

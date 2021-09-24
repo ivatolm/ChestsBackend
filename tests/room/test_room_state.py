@@ -1,32 +1,27 @@
 from src import tools
-from src.room import Room
+from room_fixtures import *
 
 
-def test_room_state_ok():
-  room_settings = {
-    "name": "DevRoom",
-    "players_count": 1
-  }
-  nickname = "Developer"
+def test_room_state_ok(room_2, join_data_2):
+  for i, join_data in enumerate(join_data_2):
+    state_data = room_2.state(join_data[0])
 
-  room = Room(room_settings)
-  player_id, _ = room.add_player(nickname)
+    assert type(state_data) == tuple
+    assert len(state_data) == 3
 
-  result = room.state(player_id)
-  assert type(result) == tuple
-  assert len(result) == 3
+    turn, cards, finished = state_data
+    assert (
+      type(turn) == bool and
+      type(cards) == list and
+      type(finished) == list
+    )
 
-  turn, cards, finished = result
-  assert type(turn) == bool
-  assert type(cards) == list
-  assert type(finished) == list
-
-  player = room.players[player_id]
-  assert tools.validate(player, {
-    "nickname": str,
-    "turn": bool,
-    "cards": list,
-    "wait": bool,
-  })
-  assert player["nickname"] == nickname
-  assert len(player["cards"]) == 4
+    player = room_2.players[join_data[0]]
+    assert tools.validate(player, {
+      "nickname": str,
+      "turn": bool,
+      "cards": list,
+      "wait": bool,
+    })
+    assert player["nickname"] == f"Player_{i}"
+    assert len(player["cards"]) == 4

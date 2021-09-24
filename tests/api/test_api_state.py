@@ -1,5 +1,5 @@
 from src import tools
-from fixtures import *
+from api_fixtures import *
 
 
 def test_api_state_ok(client, room_data_2, join_data_2):
