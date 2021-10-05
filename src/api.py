@@ -49,7 +49,6 @@ def get_state():
   data = request.json
 
   if not tools.validate(data, {
-    "room_id": str,
     "player_id": str
   }):
     raise Exception("Data validation failed.")
@@ -68,7 +67,6 @@ def take_card():
   data = request.json
 
   if not tools.validate(data, {
-    "room_id": str,
     "player_id": str,
     "nickname": str,
     "card": int
@@ -87,7 +85,6 @@ def set_ready():
   data = request.json
 
   if not tools.validate(data, {
-    "room_id": str,
     "player_id": str
   }):
     raise Exception("Data validation failed.")
