@@ -42,7 +42,11 @@ Request:
   - Response:
     ```json
     {
-      "player_id": String
+      "player_id": String,
+      "room_settings": {
+        "name": String,
+        "players_count": Number
+      }
     }
     ```
 

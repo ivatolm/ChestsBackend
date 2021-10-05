@@ -75,7 +75,7 @@ def take_card():
 
   result = game.take_card(data)
   return {
-    "success": result
+    "status": result
   }
 
 
@@ -91,5 +91,5 @@ def set_ready():
 
   result = game.set_ready(data)
   return {
-    "success": result
+    "status": result
   }

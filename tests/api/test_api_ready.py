@@ -14,5 +14,5 @@ def test_api_ready_ok(client, join_data_2):
     }).json
 
     assert tools.validate(ready_data, {
-      "success": bool
+      "status": bool
     })
