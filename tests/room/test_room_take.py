@@ -14,8 +14,8 @@ def test_room_take_ok():
   player_id_1, _ = room.add_player(nickname_1)
   player_id_2, _ = room.add_player(nickname_2)
 
-  turn_1, _, _ = room.state(player_id_1)
-  turn_2, _, _ = room.state(player_id_2)
+  turn_1, _, _ = room.get_state(player_id_1)
+  turn_2, _, _ = room.get_state(player_id_2)
 
   room.players[player_id_1]["cards"] = [0, 1, 2, 3]
   room.players[player_id_2]["cards"] = [13, 14, 15, 16]
@@ -24,9 +24,9 @@ def test_room_take_ok():
 
   result = None
   if turn_1:
-    result = room.take(player_id_1, nickname_2, 13)
+    result = room.take_card(player_id_1, nickname_2, 13)
   elif turn_2:
-    result = room.take(player_id_2, nickname_1, 1)
+    result = room.take_card(player_id_2, nickname_1, 1)
   assert result == True
 
   player_1 = room.players[player_id_1]

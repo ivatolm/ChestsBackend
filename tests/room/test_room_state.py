@@ -4,7 +4,7 @@ from room_fixtures import *
 
 def test_room_state_ok(room_2, join_data_2):
   for i, join_data in enumerate(join_data_2):
-    state_data = room_2.state(join_data[0])
+    state_data = room_2.get_state(join_data[0])
 
     assert type(state_data) == tuple
     assert len(state_data) == 3

@@ -43,9 +43,9 @@ def join_room():
   }
 
 
-@app.route("/api/state", methods=["POST"], endpoint="state")
+@app.route("/api/getState", methods=["POST"], endpoint="get_state")
 @exception_logger(fail_output=False)
-def state():
+def get_state():
   data = request.json
 
   if not tools.validate(data, {
@@ -54,7 +54,7 @@ def state():
   }):
     raise Exception("Data validation failed.")
 
-  turn, cards, finished = game.state(data)
+  turn, cards, finished = game.get_state(data)
   return {
     "turn": turn,
     "cards": cards,
@@ -62,9 +62,9 @@ def state():
   }
 
 
-@app.route("/api/take", methods=["POST"], endpoint="take")
+@app.route("/api/takeCard", methods=["POST"], endpoint="take_card")
 @exception_logger(fail_output=False)
-def take():
+def take_card():
   data = request.json
 
   if not tools.validate(data, {
@@ -75,15 +75,15 @@ def take():
   }):
     raise Exception("Data validation failed.")
 
-  result = game.take(data)
+  result = game.take_card(data)
   return {
     "success": result
   }
 
 
-@app.route("/api/ready", methods=["POST"], endpoint="ready")
+@app.route("/api/setReady", methods=["POST"], endpoint="set_ready")
 @exception_logger(fail_output=False)
-def ready():
+def set_ready():
   data = request.json
 
   if not tools.validate(data, {
@@ -92,7 +92,7 @@ def ready():
   }):
     raise Exception("Data validation failed.")
 
-  result = game.ready(data)
+  result = game.set_ready(data)
   return {
     "success": result
   }

@@ -69,7 +69,7 @@ class Room:
 
 
   @exception_logger(fail_output=(-1, [], []))
-  def state(self, player_id):
+  def get_state(self, player_id):
     if not self.__wait_st(1, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
@@ -87,7 +87,7 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def take(self, player_id, nickname, card):
+  def take_card(self, player_id, nickname, card):
     if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
@@ -120,7 +120,7 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def ready(self, player_id):
+  def set_ready(self, player_id):
     if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")
 
