@@ -11,5 +11,6 @@ def test_api_state_ok(client, room_data_2, join_data_2):
 
     assert tools.validate(state_data, {
       "turn": bool,
-      "cards": list
+      "cards": list,
+      "finished": list
     })

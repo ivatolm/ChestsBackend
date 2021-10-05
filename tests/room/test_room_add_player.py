@@ -21,6 +21,7 @@ def test_room_add_player_ok(room_2, deck_52):
       "turn": bool,
       "cards": list,
       "wait": bool,
+      "finish": bool
     })
     assert player["nickname"] == f"Player_{i}"
 
@@ -44,6 +45,7 @@ def test_room_add_player_fill(room_2, deck_52):
       "turn": bool,
       "cards": list,
       "wait": bool,
+      "finish": bool
     })
     assert player["nickname"] == f"Player_{i}"
 

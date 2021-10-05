@@ -35,6 +35,7 @@ def test_room_take_ok():
     "turn": bool,
     "cards": list,
     "wait": bool,
+    "finish": bool
   })
   assert player_1["nickname"] == nickname_1
   if turn_1:
@@ -49,6 +50,7 @@ def test_room_take_ok():
     "turn": bool,
     "cards": list,
     "wait": bool,
+    "finish": bool
   })
   assert player_2["nickname"] == nickname_2
   if turn_2:

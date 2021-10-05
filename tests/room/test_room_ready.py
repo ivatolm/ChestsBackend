@@ -18,6 +18,7 @@ def test_room_ready_ok(room_2, join_data_2):
       "turn": bool,
       "cards": list,
       "wait": bool,
+      "finish": bool
     })
     assert player["nickname"] == f"Player_{i}"
     assert len(player["cards"]) == 4
