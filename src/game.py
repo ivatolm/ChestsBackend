@@ -74,17 +74,6 @@ class Game:
 
 
   @exception_logger(fail_output=False)
-  def pull(self, pull_params):
-    room_id, player_id = pull_params["room_id"], pull_params["player_id"]
-
-    if room_id in self.rooms:
-      result = self.rooms[room_id].pull(player_id)
-      return result
-
-    raise Exception("Invalid room id.")
-
-
-  @exception_logger(fail_output=False)
   def ready(self, ready_params):
     room_id, player_id = ready_params["room_id"], ready_params["player_id"]
 

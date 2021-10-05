@@ -4,7 +4,6 @@
 - [JoinRoom](#joinroom)
 - [State](#state)
 - [Take](#take)
-- [Pull](#pull)
 - [Ready](#ready)
 
 # CreateRoom
@@ -197,54 +196,6 @@ Used to take card from another player.
   "player_id": "8621eba8-03a4-4efe-a0a3-4fd313e9b7b5",
   "nickname": "Alise",
   "card": 4
-}
-```
-
-**Response**:
-
-```json
-{
-  "success": 1
-}
-```
-
-# Pull
-
-## Description
-
-Used to pull card from the deck.
-
-## Request
-
-**URL**: `/api/pull`
-
-**Method**: `POST`
-
-**Parameters**:
-
-```json
-{
-  "room_id": "[String<UUID4>]",
-  "player_id": "[String<UUID4>]"
-}
-```
-
-**Response**:
-
-```json
-{
-  "success": "[Bool]"
-}
-```
-
-## Example
-
-**Request**:
-
-```json
-{
-  "room_id": "7bbe81ec-d15f-451d-92bf-6edd9dfc4c10",
-  "player_id": "8621eba8-03a4-4efe-a0a3-4fd313e9b7b5"
 }
 ```
 

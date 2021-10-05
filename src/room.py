@@ -120,24 +120,6 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def pull(self, player_id):
-    if not self.__wait_st(2, player_id):
-      raise Exception("Failed to block on state-change waiting.")
-
-    if player_id in self.players:
-      if len(self.deck) == 0:
-        raise Exception("Deck is empty.")
-
-      card = random.choice(self.deck)
-      self.players[player_id]["cards"].append(card)
-      self.deck.remove(card)
-
-      return True
-
-    raise Exception("Player with given id wasn't found.")
-
-
-  @exception_logger(fail_output=False)
   def ready(self, player_id):
     if not self.__wait_st(2, player_id):
       raise Exception("Failed to block on state-change waiting.")

@@ -81,23 +81,6 @@ def take():
   }
 
 
-@app.route("/api/pull", methods=["POST"], endpoint="pull")
-@exception_logger(fail_output=False)
-def pull():
-  data = request.json
-
-  if not tools.validate(data, {
-    "room_id": str,
-    "player_id": str
-  }):
-    raise Exception("Data validation failed.")
-
-  result = game.pull(data)
-  return {
-    "success": result
-  }
-
-
 @app.route("/api/ready", methods=["POST"], endpoint="ready")
 @exception_logger(fail_output=False)
 def ready():
