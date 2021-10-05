@@ -17,30 +17,30 @@ Let client be **C** and server be **S**.
       **C** joins room via **joinRoom**(*roomId*, *nickname*) <br>
       **S** responds with the (*playerId*, *roomSettings*)
     - Get game state (optional) <br>
-      **C** requests current state of the game via **state**(*playerId*) <br>
+      **C** requests current state of the game via **getState**(*playerId*) <br>
       **S** responds with the (*cards*, *turn*, *players*)
     - Ready <br>
-      **C** requests **ready**(*playerId*) <br>
+      **C** requests **setReady**(*playerId*) <br>
       **S** responds with the (*status*)
 
 3. Game <br>
   Description: This state is dedicated for the basically playing. <br>
   Request options:
     - Take card <br>
-      **С** takes card from another player via **take**(*playerId*, *target_index*, *card*) <br>
+      **С** takes card from another player via **takeCard**(*playerId*, *target_index*, *card*) <br>
       **S** responds with the (*status*)
     - Get game state (optional) <br>
-      **C** requests current state of the game via **state**(*playerId*) <br>
+      **C** requests current state of the game via **getState**(*playerId*) <br>
       **S** responds with the (*cards*, *turn*, *players*)
     - Ready <br>
-      **C** requests **ready**(*playerId*) <br>
+      **C** requests **setReady**(*playerId*) <br>
       **S** responds with the (*status*)
 
 4. New game <br>
   Description: This state is dedicated for players to start a new game. <br>
   Request options:
     - Ready <br>
-      **C** requests **ready**(*playerId*) <br>
+      **C** requests **setReady**(*playerId*) <br>
       **S** responds with the (*status*)
 
 
