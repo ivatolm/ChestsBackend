@@ -43,6 +43,9 @@ class Game:
     if room_id in self.rooms and type(nickname) == str:
       player_id, room_settings = self.rooms[room_id].add_player(nickname)
       self.players[player_id] = room_id
+
+      self.rooms[room_id].update()
+
       return player_id, room_settings
 
     raise Exception("Invalid room id.")
@@ -55,6 +58,9 @@ class Game:
     if player_id in self.players:
       room_id = self.players[player_id]
       result = self.rooms[room_id].get_state(player_id)
+
+      self.rooms[room_id].update()
+
       return result
 
     raise Exception("Invalid player id.")
@@ -71,6 +77,9 @@ class Game:
     if player_id in self.players:
       room_id = self.players[player_id]
       result = self.rooms[room_id].take_card(player_id, nickname, card)
+
+      self.rooms[room_id].update()
+
       return result
 
     raise Exception("Invalid player id.")
@@ -83,6 +92,9 @@ class Game:
     if player_id in self.players:
       room_id = self.players[player_id]
       result = self.rooms[room_id].set_ready(player_id)
+
+      self.rooms[room_id].update()
+
       return result
 
     raise Exception("Invalid player id.")
