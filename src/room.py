@@ -103,13 +103,7 @@ class Room:
         player["cards_count"] = len(self.players[pid]["cards"])
         players.append(player)
 
-    state = {
-      "cards": cards,
-      "turn": turn,
-      "players": players
-    }
-
-    return state
+    return (cards, turn, players)
 
 
   @exception_logger(fail_output=-1)

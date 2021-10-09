@@ -9,20 +9,18 @@ def test_room_state_ok(room_2, join_data_2):
     assert type(state_data) == tuple
     assert len(state_data) == 3
 
-    turn, cards, finished = state_data
+    cards, turn, players = state_data
     assert (
-      type(turn) == bool and
       type(cards) == list and
-      type(finished) == list
+      type(turn) == int and
+      type(players) == list
     )
 
     player = room_2.players[join_data[0]]
     assert tools.validate(player, {
+      "identification": list,
       "nickname": str,
-      "turn": bool,
-      "cards": list,
-      "wait": bool,
-      "finish": bool
+      "ready": int,
+      "cards": list
     })
     assert player["nickname"] == f"Player_{i}"
-    assert len(player["cards"]) == 4

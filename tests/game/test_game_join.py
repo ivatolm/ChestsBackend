@@ -41,20 +41,6 @@ def test_game_join_overfill(room_data_2):
       assert player_id == "-1"
 
 
-def test_game_join_same_nicknames(room_data_2):
-  for i in range(2):
-    player_id, _ = game.join_room({
-      "room_id": room_data_2,
-      "nickname": "Player"
-    })
-
-    assert type(player_id) == str
-    if i == 0:
-      assert player_id != "-1"
-    else:
-      assert player_id == "-1"
-
-
 def test_game_join_non_valid_room_id():
   for i in range(2):
     player_id, _ = game.join_room({

@@ -13,8 +13,8 @@ def test_game_ready_ok(join_data_2):
       "player_id": join_data[0]
     })
 
-    assert type(ready_data) == bool
-    assert ready_data == True
+    assert type(ready_data) == int
+    assert ready_data == 1
 
 
 def test_game_ready_non_valid_player_id(join_data_2):
@@ -28,5 +28,7 @@ def test_game_ready_non_valid_player_id(join_data_2):
       "player_id": 0
     })
 
-    assert type(ready_data) == bool
-    assert ready_data == False
+    print(ready_data)
+
+    assert type(ready_data) == int
+    assert ready_data == -1

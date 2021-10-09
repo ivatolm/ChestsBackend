@@ -18,7 +18,7 @@ def test_game_take_ok(join_data_2):
         "card": 0
       })
 
-      assert type(result) == bool
+      assert type(result) == int
 
 
 def test_game_take_non_valid_player_id(join_data_2):
@@ -37,8 +37,8 @@ def test_game_take_non_valid_player_id(join_data_2):
         "card": 0
       })
 
-      assert type(result) == bool
-      assert result == False
+      assert type(result) == int
+      assert result == 0
 
 
 def test_game_take_non_valid_nickname(join_data_2):
@@ -57,8 +57,8 @@ def test_game_take_non_valid_nickname(join_data_2):
         "card": 0
       })
 
-      assert type(result) == bool
-      assert result == False
+      assert type(result) == int
+      assert result == 0
 
 
 def test_game_take_non_valid_card(join_data_2):
@@ -77,5 +77,5 @@ def test_game_take_non_valid_card(join_data_2):
         "card": 0
       })
 
-      assert type(result) == bool
-      assert result == False
+      assert type(result) == int
+      assert result == 0

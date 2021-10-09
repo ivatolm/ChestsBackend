@@ -9,12 +9,12 @@ def test_game_state_ok(join_data_2):
     })
 
     assert type(state_data) == tuple and len(state_data) == 3
-    turn, cards, finished = state_data
+    cards, turn, players = state_data
 
     assert (
-      type(turn) == bool and
       type(cards) == list and
-      type(finished) == list
+      type(turn) == int and
+      type(players) == list
     )
 
 
@@ -25,16 +25,16 @@ def test_game_state_non_valid_player_id(join_data_2):
     })
 
     assert type(state_data) == tuple and len(state_data) == 3
-    turn, cards, finished = state_data
+    cards, turn, players = state_data
 
     assert (
-      type(turn) == int and
       type(cards) == list and
-      type(finished) == list
+      type(turn) == int and
+      type(players) == list
     )
 
-  assert (
-    turn == -1 and
-    cards == [] and
-    finished == []
-  )
+    assert (
+      cards == [] and
+      turn == -1 and
+      players == []
+    )
