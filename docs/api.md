@@ -3,7 +3,7 @@
 - [CreateRoom](#createroom)
 - [JoinRoom](#joinroom)
 - [GetState](#getstate)
-- [TakeCard](#takecard)
+- [GiveCard](#givecard)
 - [SetReady](#setready)
 
 # CreateRoom
@@ -76,10 +76,10 @@ Request:
     }
     ```
 
-# TakeCard
-Description: Used to take a card from another player. <br>
+# GiveCard
+Description: Used to give a card to another player. <br>
 Request:
-  - URL: `/api/takeCard`
+  - URL: `/api/giveCard`
   - Method: `POST`
   - Parameters:
     ```json

@@ -61,9 +61,9 @@ def get_state():
   }
 
 
-@app.route("/api/takeCard", methods=["POST"], endpoint="take_card")
+@app.route("/api/giveCard", methods=["POST"], endpoint="give_card")
 @exception_logger(fail_output=False)
-def take_card():
+def give_card():
   data = request.json
 
   if not tools.validate(data, {
@@ -73,7 +73,7 @@ def take_card():
   }):
     raise Exception("Data validation failed.")
 
-  result = game.take_card(data)
+  result = game.give_card(data)
   return {
     "status": result
   }

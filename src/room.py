@@ -26,7 +26,7 @@ class Room:
 
 
   @exception_logger(fail_output=False)
-  def update(self):
+  def update(self, dummy=False):
     if self.state in [0]:
       if len(self.players) == self.settings["players_count"]:
         self.deck = list(range(52))
@@ -42,7 +42,8 @@ class Room:
         self.state = 1
 
     elif self.state in [1]:
-      self.order = self.order[1:] + self.order[:1]
+      if not dummy:
+        self.order = self.order[1:] + self.order[:1]
       if all([player["ready"] in [1] for player in self.players.values()]):
         for pid in self.players:
           if pid in self.order:
@@ -107,7 +108,7 @@ class Room:
 
 
   @exception_logger(fail_output=-1)
-  def take_card(self, player_id, target_index, card):
+  def give_card(self, player_id, target_index, card):
     self.__wait_state([1], player_id)
 
     if self.state not in [1]:
@@ -160,7 +161,7 @@ class Room:
     if player_id and self.players[player_id]["ready"] == 2:
       return False
 
-    self.update()
+    self.update(dummy=True)
     while self.state not in states:
       time.sleep(1)
 

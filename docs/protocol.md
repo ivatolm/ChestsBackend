@@ -26,8 +26,8 @@ Let client be **C** and server be **S**.
 3. Game <br>
   Description: This state is dedicated for the basically playing. <br>
   Request options:
-    - Take card <br>
-      **С** takes card from another player via **takeCard**(*playerId*, *target_index*, *card*) <br>
+    - Give card <br>
+      **С** gives card to another player via **giveCard**(*playerId*, *target_index*, *card*) <br>
       **S** responds with the (*status*)
     - Get game state (optional) <br>
       **C** requests current state of the game via **getState**(*playerId*) <br>

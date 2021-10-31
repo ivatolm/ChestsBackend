@@ -67,16 +67,16 @@ class Game:
 
 
   @exception_logger(fail_output=0)
-  def take_card(self, take_params):
+  def give_card(self, give_params):
     room_id, player_id, nickname, card = (
-      take_params["player_id"],
-      take_params["nickname"],
-      take_params["card"]
+      give_params["player_id"],
+      give_params["nickname"],
+      give_params["card"]
     )
 
     if player_id in self.players:
       room_id = self.players[player_id]
-      result = self.rooms[room_id].take_card(player_id, nickname, card)
+      result = self.rooms[room_id].give_card(player_id, nickname, card)
 
       self.rooms[room_id].update()
 
