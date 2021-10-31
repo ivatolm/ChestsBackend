@@ -76,7 +76,7 @@ class Room:
     return player_id, self.settings
 
 
-  @exception_logger(fail_output=([], -1, []))
+  @exception_logger(fail_output=([], -2, []))
   def get_state(self, player_id):
     self.__wait_state([0, 1], player_id)
 
@@ -92,7 +92,7 @@ class Room:
     if self.order[0] == player_id:
       turn = -1
     else:
-      self.players[player_id]["indentification"].find(player_id)
+      turn = self.players[player_id]["identification"].index(self.order[0])
 
     players = []
     for pid in self.players:
@@ -116,13 +116,13 @@ class Room:
     if player_id not in self.players:
       raise Exception("Player with given 'player_id' wasn't found.")
 
-    if not (0 <= target_index < len(self.players)):
+    if not (0 <= target_index < len(self.players) - 1):
       raise Exception("Parameter 'target_index' out of bounds.")
 
     if card not in self.players[player_id]["cards"]:
       raise Exception("Player doesn't have specified card.")
 
-    target_pid = self.players[player_id]["indentification"][target_index]
+    target_pid = self.players[player_id]["identification"][target_index]
 
     if self.order[0] != target_pid:
       raise Exception("It's not target player's turn.")
