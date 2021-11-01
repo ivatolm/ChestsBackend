@@ -3,8 +3,8 @@ import uuid, time, random
 from . import logger
 
 
-logger = logger.Logger("room")
-exception_logger = logger.gen_exception_logger()
+lggr = logger.Logger("room")
+exception_logger = lggr.gen_exception_logger()
 
 
 class Room:

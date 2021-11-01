@@ -4,8 +4,8 @@ from . import logger
 from .room import Room
 
 
-logger = logger.Logger("game")
-exception_logger = logger.gen_exception_logger()
+lggr = logger.Logger("game")
+exception_logger = lggr.gen_exception_logger()
 
 
 class Game:

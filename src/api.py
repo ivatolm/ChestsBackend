@@ -4,8 +4,8 @@ from . import app, game
 from . import logger, tools
 
 
-logger = logger.Logger("api")
-exception_logger = logger.gen_exception_logger()
+lggr = logger.Logger("api")
+exception_logger = lggr.gen_exception_logger()
 
 
 @app.route("/api/createRoom", methods=["POST"], endpoint="create_room")
