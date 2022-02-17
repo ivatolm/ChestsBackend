@@ -20,7 +20,7 @@ class Room:
   @exception_logger(fail_output=False)
   def validate(self):
     if self.settings["players_count"] > 52 // 4:
-      raise Exception("Room settings doesn't meet the required constraints.")
+      raise Exception(301)
 
     return True
 
@@ -59,7 +59,7 @@ class Room:
   @exception_logger(fail_output=("-1", {}))
   def add_player(self, nickname):
     if self.state not in [0]:
-      raise Exception("This action is not allowed at the current game state.")
+      raise Exception(302)
 
     player = {
       "identification": list(self.players.keys()),
@@ -82,10 +82,10 @@ class Room:
     self.__wait_state([0, 1], player_id)
 
     if self.state not in [0, 1]:
-      raise Exception("This action is not allowed at the current game state.")
+      raise Exception(302)
 
     if player_id not in self.players:
-      raise Exception("Player with given 'player_id' wasn't found.")
+      raise Exception(303)
 
     cards = self.players[player_id]["cards"]
 
@@ -112,21 +112,21 @@ class Room:
     self.__wait_state([1], player_id)
 
     if self.state not in [1]:
-      raise Exception("This action is not allowed at the current game state.")
+      raise Exception(302)
 
     if player_id not in self.players:
-      raise Exception("Player with given 'player_id' wasn't found.")
+      raise Exception(303)
 
     if not (0 <= target_index < len(self.players) - 1):
-      raise Exception("Parameter 'target_index' out of bounds.")
+      raise Exception(304)
 
     if card not in self.players[player_id]["cards"]:
-      raise Exception("Player doesn't have specified card.")
+      raise Exception(305)
 
     target_pid = self.players[player_id]["identification"][target_index]
 
     if self.order[0] != target_pid:
-      raise Exception("It's not target player's turn.")
+      raise Exception(306)
 
     self.players[player_id]["cards"].remove(card)
     self.players[target_pid]["cards"].append(card)
@@ -139,13 +139,13 @@ class Room:
     self.__wait_state([1], player_id)
 
     if self.state not in [1]:
-      raise Exception("This action is not allowed at the current game state.")
+      raise Exception(302)
 
     if player_id not in self.players:
-      raise Exception("Player with given 'player_id' wasn't found.")
+      raise Exception(303)
 
     if self.players[player_id]["ready"] == 2:
-      raise Exception("Player is already finished a game.")
+      raise Exception(307)
 
     self.players[player_id]["ready"] = 1
     if self.order[0] == player_id:

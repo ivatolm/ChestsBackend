@@ -16,13 +16,13 @@ def create_room():
   if not tools.validate(data, {
     "room_settings": dict
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
   
   if not tools.validate(data["room_settings"], {
     "name": str,
     "players_count": int
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
 
   room_id = game.create_room(data)
   return {
@@ -39,7 +39,7 @@ def join_room():
     "room_id": str,
     "nickname": str
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
 
   player_id, room_settings = game.join_room(data)
   return {
@@ -56,7 +56,7 @@ def get_state():
   if not tools.validate(data, {
     "player_id": str
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
 
   turn, cards, finished = game.get_state(data)
   return {
@@ -76,7 +76,7 @@ def give_card():
     "nickname": str,
     "card": int
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
 
   result = game.give_card(data)
   return {
@@ -92,7 +92,7 @@ def set_ready():
   if not tools.validate(data, {
     "player_id": str
   }):
-    raise Exception("Data validation failed.")
+    raise Exception(101)
 
   result = game.set_ready(data)
   return {

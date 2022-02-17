@@ -18,7 +18,7 @@ class Game:
   def create_room(self, room_settings):
     room = Room(room_settings)
     if not room.validate():
-      raise Exception("Failed to create room with given parameters.")
+      raise Exception(201)
 
     id = str(uuid.uuid4())
 
@@ -27,13 +27,13 @@ class Game:
         or
       (type(room_settings["players_count"]) != int)
     ):
-      raise Exception("'room_settings' doesn't meet the required constraints.")
+      raise Exception(202)
 
     if id not in self.rooms:
       self.rooms[id] = room
       return id
 
-    raise Exception("Unique id generation failed.")
+    raise Exception(203)
 
 
   @exception_logger(fail_output=("-1", {}))
@@ -48,7 +48,7 @@ class Game:
 
       return player_id, room_settings
 
-    raise Exception("Invalid room id.")
+    raise Exception(204)
 
 
   @exception_logger(fail_output=([], -1, []))
@@ -63,7 +63,7 @@ class Game:
 
       return result
 
-    raise Exception("Invalid player id.")
+    raise Exception(205)
 
 
   @exception_logger(fail_output=0)
@@ -82,7 +82,7 @@ class Game:
 
       return result
 
-    raise Exception("Invalid player id.")
+    raise Exception(205)
 
 
   @exception_logger(fail_output=-1)
@@ -97,4 +97,4 @@ class Game:
 
       return result
 
-    raise Exception("Invalid player id.")
+    raise Exception(205)
