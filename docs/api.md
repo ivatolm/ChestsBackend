@@ -23,6 +23,7 @@ Request:
   - Response:
     ```json
     {
+      "error_code": Number,
       "room_id": String
     }
     ```
@@ -42,6 +43,7 @@ Request:
   - Response:
     ```json
     {
+      "error_code": Number,
       "player_id": String,
       "room_settings": {
         "name": String,
@@ -64,6 +66,7 @@ Request:
   - Response:
     ```json
     {
+      "error_code": Number,
       "cards": List(Number),
       "turn": Number,
       "players": List(
@@ -92,6 +95,7 @@ Request:
   - Response:
     ```json
     {
+      "error_code": Number,
       "status": Number
     }
     ```
@@ -110,6 +114,7 @@ Request:
   - Response:
     ```json
     {
+      "error_code": Number,
       "status": Number
     }
     ```

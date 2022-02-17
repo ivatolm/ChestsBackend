@@ -3,6 +3,8 @@
 This is a description of a client-server API protocol. <br>
 Let client be **C** and server be **S**.
 
+Note: Each server response also has got a *error_code* field.
+
 1. Pre-initialization <br>
   Description: This state is dedicated for the room creation. <br>
   Request options:
@@ -122,3 +124,9 @@ status: Number
 card: Number
 ```
 - **card**: Card ID
+
+## Error code
+```
+error_code: Number
+```
+- **error_code**: Code of an error.
