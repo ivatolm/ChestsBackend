@@ -9,6 +9,7 @@ def test_api_state_ok(client, join_data_2):
     }).json
 
     assert tools.validate(state_data, {
+      "error_code": int,
       "turn": bool,
       "cards": list,
       "finished": list

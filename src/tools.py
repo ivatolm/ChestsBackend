@@ -2,10 +2,8 @@ from . import logger
 
 
 lggr = logger.Logger("tools")
-exception_logger = lggr.gen_exception_logger()
 
 
-@exception_logger(fail_output=False)
 def validate(x, y):
   results = {}
   for key, item in x.items():

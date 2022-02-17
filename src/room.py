@@ -4,7 +4,6 @@ from . import logger
 
 
 lggr = logger.Logger("room")
-exception_logger = lggr.gen_exception_logger()
 
 
 class Room:
@@ -17,7 +16,6 @@ class Room:
     self.order = []
 
 
-  @exception_logger(fail_output=False)
   def validate(self):
     if self.settings["players_count"] > 52 // 4:
       raise Exception(301)
@@ -25,7 +23,6 @@ class Room:
     return True
 
 
-  @exception_logger(fail_output=False)
   def update(self, dummy=False):
     if self.state in [0]:
       if len(self.players) == self.settings["players_count"]:
@@ -56,7 +53,6 @@ class Room:
         self.state = 2
 
 
-  @exception_logger(fail_output=("-1", {}))
   def add_player(self, nickname):
     if self.state not in [0]:
       raise Exception(302)
@@ -77,7 +73,6 @@ class Room:
     return player_id, self.settings
 
 
-  @exception_logger(fail_output=([], -2, []))
   def get_state(self, player_id):
     self.__wait_state([0, 1], player_id)
 
@@ -107,7 +102,6 @@ class Room:
     return (cards, turn, players)
 
 
-  @exception_logger(fail_output=-1)
   def give_card(self, player_id, target_index, card):
     self.__wait_state([1], player_id)
 
@@ -134,7 +128,6 @@ class Room:
     return 1
 
 
-  @exception_logger(fail_output=-1)
   def set_ready(self, player_id):
     self.__wait_state([1], player_id)
 

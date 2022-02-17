@@ -11,5 +11,6 @@ def test_api_create_ok(client):
   }).json
 
   assert tools.validate(room_data, {
+    "error_code": int,
     "room_id": str
   })

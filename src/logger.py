@@ -1,5 +1,5 @@
 import os, json, datetime
-from functools import wraps
+
 
 class Logger:
 
@@ -27,25 +27,3 @@ class Logger:
     with open(self.log_file, 'a') as log_file:
       log_msg = f"{datetime.datetime.now()} :: {self.name} :: {who} :: {str(msg)}\n"
       log_file.write(log_msg)
-
-
-  def gen_exception_logger(self):
-    def exception_logger(*args, **kwargs):
-      def func_wrapper(func):
-        @wraps(func)
-        def wrapper(*w_args, **w_kwargs):
-          self.log(func.__name__, ">>>")
-          result = None
-
-          try:
-            result = func(*w_args, **w_kwargs)
-          except Exception as e:
-            self.log(func.__name__, str(e))
-            result = kwargs["fail_output"]
-
-          self.log(func.__name__, "<<<")
-          return result
-
-        return wrapper
-      return func_wrapper
-    return exception_logger

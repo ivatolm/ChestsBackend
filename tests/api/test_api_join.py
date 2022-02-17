@@ -10,6 +10,7 @@ def test_api_join_ok(client, room_data_2):
     }).json
 
     assert tools.validate(join_data, {
+      "error_code": int,
       "player_id": str,
       "room_settings": dict
     })

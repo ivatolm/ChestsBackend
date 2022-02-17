@@ -5,7 +5,6 @@ from .room import Room
 
 
 lggr = logger.Logger("game")
-exception_logger = lggr.gen_exception_logger()
 
 
 class Game:
@@ -14,20 +13,19 @@ class Game:
     self.players = {}
 
 
-  @exception_logger(fail_output="-1")
   def create_room(self, room_settings):
-    room = Room(room_settings)
-    if not room.validate():
-      raise Exception(201)
-
-    id = str(uuid.uuid4())
-
     if (
       (type(room_settings["name"]) != str)
         or
       (type(room_settings["players_count"]) != int)
     ):
       raise Exception(202)
+
+    room = Room(room_settings)
+    if not room.validate():
+      raise Exception(201)
+
+    id = str(uuid.uuid4())
 
     if id not in self.rooms:
       self.rooms[id] = room
@@ -36,7 +34,6 @@ class Game:
     raise Exception(203)
 
 
-  @exception_logger(fail_output=("-1", {}))
   def join_room(self, join_params):
     room_id, nickname = join_params["room_id"], join_params["nickname"]
 
@@ -51,7 +48,6 @@ class Game:
     raise Exception(204)
 
 
-  @exception_logger(fail_output=([], -1, []))
   def get_state(self, state_params):
     player_id = state_params["player_id"]
 
@@ -66,7 +62,6 @@ class Game:
     raise Exception(205)
 
 
-  @exception_logger(fail_output=0)
   def give_card(self, give_params):
     room_id, player_id, nickname, card = (
       give_params["player_id"],
@@ -85,7 +80,6 @@ class Game:
     raise Exception(205)
 
 
-  @exception_logger(fail_output=-1)
   def set_ready(self, ready_params):
     player_id = ready_params["player_id"]
 

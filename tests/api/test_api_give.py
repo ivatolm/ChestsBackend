@@ -19,5 +19,6 @@ def test_api_give_ok(client, join_data_2):
       }).json
 
       assert tools.validate(give_data, {
+        "error_code": int,
         "status": bool
       })
