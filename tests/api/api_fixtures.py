@@ -11,8 +11,10 @@ def client():
 @pytest.fixture
 def room_data_2(client):
   result = client.post("/api/createRoom", json={
-    "name": "Room_2",
-    "players_count": 2
+    "room_settings": {
+      "name": "Room_2",
+      "players_count": 2
+    }
   }).json
   return result
 
@@ -20,8 +22,10 @@ def room_data_2(client):
 @pytest.fixture
 def room_data_3(client):
   result = client.post("/api/createRoom", json={
-    "name": "Room_3",
-    "players_count": 3
+    "room_settings": {
+      "name": "Room_3",
+      "players_count": 3
+    }
   }).json
   return result
 

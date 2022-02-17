@@ -14,6 +14,11 @@ def create_room():
   data = request.json
 
   if not tools.validate(data, {
+    "room_settings": dict
+  }):
+    raise Exception("Data validation failed.")
+  
+  if not tools.validate(data["room_settings"], {
     "name": str,
     "players_count": int
   }):
