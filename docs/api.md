@@ -118,3 +118,19 @@ Request:
       "status": Number
     }
     ```
+
+# GetErrorMap
+Description: Used for client to know what error code is responsible for what. <br>
+Request:
+  - URL: `/api/getErrorMap`
+  - Method: `POST`
+  - Parameters:
+    ```json
+    {
+
+    }
+    {
+      "map": Map,
+      "error_code": Number
+    }
+    ```

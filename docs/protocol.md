@@ -3,7 +3,8 @@
 This is a description of a client-server API protocol. <br>
 Let client be **C** and server be **S**.
 
-Note: Each server response also has got a *error_code* field.
+Note: Each server response also has got a *error_code* field. <br>
+Note: Client can ask for a map of error codes via **getErrorMap()** call. <br>
 
 1. Pre-initialization <br>
   Description: This state is dedicated for the room creation. <br>

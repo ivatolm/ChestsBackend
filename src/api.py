@@ -1,8 +1,7 @@
 from flask import Flask, request
 
-from . import app, game
+from . import app, game, ERROR_CODES
 from . import logger, tools
-
 
 lggr = logger.Logger("api")
 
@@ -145,5 +144,29 @@ def set_ready():
   except Exception as e:
     response["error_code"] = int(str(e))
     lggr.log("set_ready", str(e))
+  
+  return response
+
+
+@app.route("/api/getErrorMap", methods=["POST"], endpoint="get_error_map")
+def get_error_map():
+  response = {
+    "error_code": 0
+  }
+
+  try:
+    data = request.json
+
+    if not tools.validate(data, {
+    }):
+      raise Exception(101)
+
+    response = dict(response, **{
+      "map": ERROR_CODES
+    })
+
+  except Exception as e:
+    response["error_code"] = int(str(e))
+    lggr.log("get_error_map", str(e))
   
   return response
