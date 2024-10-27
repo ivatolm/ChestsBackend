@@ -1,5 +1,5 @@
 from src import tools
-from api_fixtures import *
+from .api_fixtures import *
 
 
 def test_api_give_ok(client, join_data_2):

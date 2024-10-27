@@ -1,5 +1,5 @@
 from src import tools
-from room_fixtures import *
+from .room_fixtures import *
 
 
 def test_room_get_state_ok(room_data_2, join_data_2):
@@ -9,4 +9,4 @@ def test_room_get_state_ok(room_data_2, join_data_2):
 
   assert isinstance(cards, list) and cards != []
   assert isinstance(turn, int) and turn != -2
-  assert isinstance(players, list) and players != []   
+  assert isinstance(players, list) and players != []

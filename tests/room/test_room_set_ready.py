@@ -1,5 +1,5 @@
 from src import tools
-from room_fixtures import *
+from .room_fixtures import *
 
 
 def test_room_set_ready_ok(room_data_2):
